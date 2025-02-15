@@ -24,7 +24,9 @@ function prevStep() {
     fetch("http://127.0.0.1:5000/get_previous_step")
         .then(response => response.json())
         .then(data => {
-            if (data.step_content !== "START") {
+            if (data.step_content === "START") {
+                window.location.href = "index.html";
+            } else {
                 stepContent.textContent = data.step_content;
                 stepNumber.textContent = data.step_number + 1;
             }
