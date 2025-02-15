@@ -28,13 +28,19 @@ function draw() {
         let stretchedFingers = fingers.filter(finger => isFingerStretched(hand, finger));
 
         if (stretchedFingers.length > 0) {
-            console.log("Stretched fingers:", stretchedFingers.join(", "));
+            // console.log("Stretched fingers:", stretchedFingers.join(", "));
         }
 
+        // When index, middle, ring finger is open
         if (isHandOpen(hand)) {
-            console.log("Hand is OPEN ✋");
+            let fingers = ["index_finger", "middle_finger", "ring_finger"];
+            for (let i = 0; i < fingers.length; i++) {
+                if (isFingerPointingUp(hand, fingers[i])) {
+                    console.log("Hand is OPEN ✋");
+                    // console.log(fingers[i] + " is pointing UP 👆");
+                }
+            }
         }
-
 
         if (isFingerStretched(hand, "index_finger")) {
             let direction = isFingerPointingLeftRight(hand, "index_finger");
@@ -102,8 +108,20 @@ function isFingerPointingLeftRight(hand, fingerName) {
     return tip.x > mcp.x ? "left" : "right"; // Adjusted for mirrored video
 }
 
+function isFingerPointingUp(hand, fingerName) {
+    let tip = hand.keypoints.find(k => k.name === `${fingerName}_tip`);
+    let mcp = hand.keypoints.find(k => k.name === `${fingerName}_mcp`);
+
+    if (!tip || !mcp) return "unknown";
+
+    return tip.y < mcp.y ? "up" : "down"; // Adjusted for pointing up or down
+}
+
 function isHandOpen(hand) {
-    let fingers = ["thumb", "index_finger", "middle_finger", "ring_finger", "pinky"];
+    // let fingers = ["thumb", "index_finger", "middle_finger", "ring_finger", "pinky"];
+
+    // excluding thumb and pinky
+    let fingers = ["index_finger", "middle_finger", "ring_finger"];
     
     // Check if all fingers are stretched
     return fingers.every(finger => isFingerStretched(hand, finger));
