@@ -4,8 +4,8 @@
     flex-direction: column-reverse;
     bottom: 20px; /* Distance from the bottom */
     right: 20px; /* Changed from left to right */
-    max-width: 250px; /* Adjust width as needed */
-    min-width: 220px; /* Ensures a minimum width */
+    max-width: 280px; /* Adjust width as needed */
+    min-width: 260px; /* Ensures a minimum width */
     z-index: 999; /* Ensures it stays above other content */
     align-items: flex-end; /* Align alerts to the right */
 }
@@ -18,10 +18,38 @@
     transition: background 0.3s ease, transform 0.1s ease;
     border-radius: 30px;
     text-align: center; /* Centers text inside the alert */
-    color: var(--color-secondary);
+    /* color: var(--color-secondary); */
+    color: "black";
+    text-decoration: none;
+    font-weight: 500;
 }
 
 .alert:hover {
     background: #f8f9fa; /* Light gray hover effect */
+    transform: scale(1.05);
+}
+
+.ai-output {
+}
+
+.user-choice {
+    display: flex;
+    justify-content: space-between; /* Aligns the buttons to the left and right */
+    width: 100%; /* Ensure it takes full width */
+    padding: 10px 20px; /* Optional: Add some padding for spacing */
+}
+
+.user-choice .btn {
+    width: 45%; /* Makes sure each button takes up half of the space */
+}
+
+.ai-output-container {
+    text-align: left;
+    border-radius: 30px 30px 30px 0px;
+    background-color: rgba(255, 231, 226, 1);
+}
+
+.ai-output-container:hover {
+    background: rgb(249, 220, 214);
     transform: scale(1.05);
 }
