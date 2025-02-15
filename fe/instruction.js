@@ -28,16 +28,20 @@ function setup() {
 }
 
 function draw() {
-    // Draw the webcam video
+    // Mirror the webcam video
+    push();
+    translate(width, 0); // Move the origin to the right edge
+    scale(-1, 1); // Flip horizontally
     image(video, 0, 0, width, height);
+    pop(); // Restore the original coordinate system
 
     // Draw all the tracked hand points
     for (let i = 0; i < hands.length; i++) {
         let hand = hands[i];
 
-        if (isFingerStretched(hands[0], "index_finger")) {
-            let direction = isFingerPointingLeftRight(hands[0], "index_finger");
-            
+        if (isFingerStretched(hand, "index_finger")) {
+            let direction = isFingerPointingLeftRight(hand, "index_finger");
+
             if (direction === "right") {
                 console.log("Index finger is pointing RIGHT 👉");
             } else if (direction === "left") {
@@ -45,12 +49,15 @@ function draw() {
             }
         }
 
-        
         for (let j = 0; j < hand.keypoints.length; j++) {
-        let keypoint = hand.keypoints[j];
-        fill(0, 255, 0);
-        noStroke();
-        circle(keypoint.x, keypoint.y, 10);
+            let keypoint = hand.keypoints[j];
+
+            // Flip keypoint positions to match the mirrored video
+            let mirroredX = width - keypoint.x;
+
+            fill(0, 255, 0);
+            noStroke();
+            circle(mirroredX, keypoint.y, 10);
         }
     }
 }
@@ -91,5 +98,5 @@ function isFingerPointingLeftRight(hand, fingerName) {
 
     if (!tip || !mcp) return "unknown"; // If keypoints are missing
 
-    return tip.x > mcp.x ? "right" : "left";
+    return tip.x > mcp.x ? "left" : "right";
 }
