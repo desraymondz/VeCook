@@ -82,7 +82,7 @@ def chat():
 def get_next_step():
     """Return the next step in the recipe."""
     next_step = "END"
-    if user_state["current_step"] < len(RECIPE["steps"]):
+    if user_state["current_step"] < len(RECIPE["steps"]) - 1:
         next_step = RECIPE["steps"][user_state["current_step"]]
         user_state["current_step"] += 1
     return jsonify({"response": next_step})
@@ -97,5 +97,5 @@ def get_previous_step():
     return jsonify({"response": previous_step})
 
 if __name__ == "__main__":
-    app.run(debug=True)
-    # print(answer_question("Oh no I accidentally put too much water, what should I do?"))
+    # app.run(debug=True)
+    print(answer_question("1", "Oh oops sorry I read it wrongly"))
