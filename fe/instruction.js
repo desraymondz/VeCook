@@ -7,6 +7,9 @@ let rightIndexFingerTimer = 0;
 let leftIndexFingerTimer = 0;
 let handTimer = 0;
 
+// How many seconds to validate a user action
+let timeToExecute = 60;
+
 function preload() {
     handPose = ml5.handPose();
 }
@@ -54,7 +57,7 @@ function draw() {
                 leftIndexFingerTimer = 0;
 
                 rightIndexFingerTimer++;
-                if (rightIndexFingerTimer == 60) {
+                if (rightIndexFingerTimer == timeToExecute) {
                     console.log("API Called: rightIndexFingerTimer", rightIndexFingerTimer);
                     fetchNextStep();  // Fetch and log the next step from the backend
                     rightIndexFingerTimer = 0;
@@ -65,7 +68,7 @@ function draw() {
                 rightIndexFingerTimer = 0;
                 
                 leftIndexFingerTimer++;
-                if (leftIndexFingerTimer == 60) {
+                if (leftIndexFingerTimer == timeToExecute) {
                     fetchPreviousStep();  // Fetch and log the next step from the backend
                     leftIndexFingerTimer = 0;
                 }
@@ -85,6 +88,12 @@ function draw() {
         leftIndexFingerTimer = 0;
         // console.log("timer reseted")
     }
+
+    // Progress bar for the hand
+    strokeWeight(0);
+    fill("orange");
+    // rect(0, height - 50, map(handTimer + rightIndexFingerTimer + leftIndexFingerTimer, 0, timeToExecute, 0, width), 50);
+    rect(0, height - 50, map(rightIndexFingerTimer + leftIndexFingerTimer, 0, timeToExecute, 0, width), 50);
 }
 
 // Store only the first detected hand
