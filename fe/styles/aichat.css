@@ -1,3 +1,27 @@
-.chat-cointainer {
-    width: 20%;
+.chat-container {
+    position: fixed; /* Keeps it fixed on the screen */
+    display: flex;
+    flex-direction: column-reverse;
+    bottom: 20px; /* Distance from the bottom */
+    right: 20px; /* Changed from left to right */
+    max-width: 250px; /* Adjust width as needed */
+    min-width: 220px; /* Ensures a minimum width */
+    z-index: 999; /* Ensures it stays above other content */
+    align-items: flex-end; /* Align alerts to the right */
+}
+
+.alert {
+    width: 100%; /* Ensures all alerts have the same width */
+    margin-bottom: 10px; /* Spacing between alerts */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Optional: Adds a shadow */
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.1s ease;
+    border-radius: 30px;
+    text-align: center; /* Centers text inside the alert */
+    color: var(--color-secondary);
+}
+
+.alert:hover {
+    background: #f8f9fa; /* Light gray hover effect */
+    transform: scale(1.05);
 }
