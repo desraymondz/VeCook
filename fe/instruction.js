@@ -34,9 +34,17 @@ function draw() {
     // Draw all the tracked hand points
     for (let i = 0; i < hands.length; i++) {
         let hand = hands[i];
+
         if (isFingerStretched(hands[0], "index_finger")) {
-        console.log("Index finger is stretched!");
+            let direction = isFingerPointingLeftRight(hands[0], "index_finger");
+            
+            if (direction === "right") {
+                console.log("Index finger is pointing RIGHT 👉");
+            } else if (direction === "left") {
+                console.log("Index finger is pointing LEFT 👈");
+            }
         }
+
         
         for (let j = 0; j < hand.keypoints.length; j++) {
         let keypoint = hand.keypoints[j];
@@ -75,4 +83,13 @@ function isFingerStretched(hand, fingerName) {
     let isStraight = tip.y < dip.y && dip.y < pip.y && pip.y < mcp.y;
 
     return isFarEnough && isStraight;
+}
+
+function isFingerPointingLeftRight(hand, fingerName) {
+    let tip = hand.keypoints.find(k => k.name === `${fingerName}_tip`);
+    let mcp = hand.keypoints.find(k => k.name === `${fingerName}_mcp`);
+
+    if (!tip || !mcp) return "unknown"; // If keypoints are missing
+
+    return tip.x > mcp.x ? "right" : "left";
 }
