@@ -86,15 +86,6 @@
     display: flex;
 }
 
-/* .steps-bg {
-    background-color: rgba(255, 231, 226, 1);
-    width: auto;
-    height: auto;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-} */
-
 /* Make the .steps-bg take the remaining height */
 .steps-bg {
     background-color: rgba(255, 231, 226, 1);
@@ -111,7 +102,7 @@
 }
 
 .mic-button i {
-    font-size: 2em; /* Ensure both icons are the same size */
+    font-size: 240%; /* Ensure both icons are the same size */
     position: absolute; /* Stack them on top of each other */
     transition: opacity 0.2s ease-in-out;
 }
