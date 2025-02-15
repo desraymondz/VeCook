@@ -1,13 +1,533 @@
-<!-- home page -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Black Bean Brownies Recipe</title>
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="./styles/global.css">
+    <link rel="stylesheet" href="./styles/aichat.css">
+    
+    <!-- JS -->
+    <script src="./scripts/aichat.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f9f5f0;
+        }
+
+        /* Navigation Bar Styles */
+        .navbar {
+            background-color: #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .logo-img {
+            width: 32px;
+            height: 32px;
+        }
+
+        .logo-text {
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .nav-links a:hover {
+            background-color: #555;
+        }
+
+        .nav-links a.active {
+            background-color: #4CAF50;
+        }
+
+        /* Main Content Styles */
+        .content-wrapper {
+            padding: 30px 20px;
+        }
+
+        .recipe-card {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .left-section {
+            flex: 1;
+            min-width: 300px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #fcfaf7;
+        }
+
+        .recipe-image {
+            width: 100%;
+            max-width: 250px;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .recipe-title {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            margin: 15px 0;
+        }
+
+        .time-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .clock-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        .start-button {
+            background-color: #fef5b7;
+            border: none;
+            border-radius: 25px;
+            padding: 12px 40px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .start-button:hover {
+            background-color: #fcee9e;
+            transform: translateY(-2px);
+        }
+
+        .right-section {
+            flex: 2;
+            min-width: 300px;
+            padding: 30px;
+        }
+
+        .ingredients-header {
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+
+        .servings-dropdown {
+            position: relative;
+            width: 200px;
+            margin-left: auto;
+            margin-bottom: 20px;
+        }
+
+        .dropdown-button {
+            width: 100%;
+            padding: 8px 12px;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            text-align: left;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            width: 100%;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            display: block;
+            padding: 8px 12px;
+            text-decoration: none;
+            color: black;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .ingredients-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .ingredients-table th, .ingredients-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .ingredients-table th {
+            font-weight: bold;
+        }
+
+        .checkbox-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .custom-checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .custom-checkbox.checked {
+            background-color: #4caf50;
+            border-color: #4caf50;
+        }
+
+        .custom-checkbox.checked::after {
+            content: "";
+            position: absolute;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            top: 2px;
+            left: 6px;
+            transform: rotate(45deg);
+        }
+
+        .bubble {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background-color: #3b89ff;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            top: 80px;
+            right: 20px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(59, 137, 255, 0.7);
+            }
+            70% {
+                transform: scale(1.1);
+                box-shadow: 0 0 0 10px rgba(59, 137, 255, 0);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(59, 137, 255, 0);
+            }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .recipe-card {
+                flex-direction: column;
+            }
+            
+            .left-section, .right-section {
+                width: 100%;
+            }
+            
+            .navbar {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .nav-links {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
 </head>
 <body>
-    
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <a href="/" class="logo-container">
+            <img src="styles\logo.png" alt="Your Logo" class="logo-img">
+            <span class="logo-text">Kitchen Copilot - VeCook</span>
+        </a>
+        <div class="nav-links">
+            <a href="/" class="nav-link">Home</a>
+            <a href="#" class="nav-link active" id="start-cooking-nav">Start Cooking</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="content-wrapper">
+        <div class="recipe-card">
+            <div class="left-section">
+                <img src="/api/placeholder/400/320" alt="Black Bean Brownies" class="recipe-image">
+                <div class="recipe-title">Black Bean<br>Brownies</div>
+                <div class="time-container">
+                    <svg class="clock-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                    <span class="est-time">Est time</span>
+                    <span class="minutes">45 minutes</span>
+                </div>
+                <button class="start-button">Start Cooking</button>
+            </div>
+            
+            <div class="right-section">
+                <h2 class="ingredients-header">Ingredients</h2>
+                
+                <div class="servings-dropdown">
+                    <button class="dropdown-button">2 Servings <span>▼</span></button>
+                    <div class="dropdown-content">
+                        <a href="#" data-servings="1">1 Serving</a>
+                        <a href="#" data-servings="2">2 Servings</a>
+                        <a href="#" data-servings="4">4 Servings</a>
+                        <a href="#" data-servings="6">6 Servings</a>
+                    </div>
+                </div>
+                
+                <table class="ingredients-table">
+                    <thead>
+                        <tr>
+                            <th>Ingredients</th>
+                            <th>Measurement</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Pastry flour</td>
+                            <td class="measurement" data-base="1">1 C</td>
+                            <td class="checkbox-container">
+                                <div class="custom-checkbox"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Cocoa powder</td>
+                            <td class="measurement" data-base="0.5">0.50 C</td>
+                            <td class="checkbox-container">
+                                <div class="custom-checkbox checked"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Salt</td>
+                            <td class="measurement" data-base="0.5">0.50 TSP</td>
+                            <td class="checkbox-container">
+                                <div class="custom-checkbox"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Baking powder</td>
+                            <td class="measurement" data-base="1">1 TSP</td>
+                            <td class="checkbox-container">
+                                <div class="custom-checkbox checked"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Baking soda</td>
+                            <td class="measurement" data-base="0.25">0.25 TSP</td>
+                            <td class="checkbox-container">
+                                <div class="custom-checkbox"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Sugar</td>
+                            <td class="measurement" data-base="0.5">0.50 C</td>
+                            <td class="checkbox-container">
+                                <div class="custom-checkbox"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Egg</td>
+                            <td class="measurement" data-base="1" data-type="count">1 LARGE</td>
+                            <td class="checkbox-container">
+                                <div class="custom-checkbox"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Vanilla</td>
+                            <td class="measurement" data-base="1">1 TSP</td>
+                            <td class="checkbox-container">
+                                <div class="custom-checkbox"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Blueberries</td>
+                            <td class="measurement" data-base="1">1 C</td>
+                            <td class="checkbox-container">
+                                <div class="custom-checkbox checked"></div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="bubble">2</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="chat-container">
+        <!-- user will choose to apply or not to apply -->
+        <div class="user-choice" style="display: none;"> <!-- Initially hidden -->
+            <button type="button" class="btn btn-danger">No</button>
+            <button type="button" class="btn btn-success">Apply!</button>
+        </div>
+        <div class="ai-output" id="ai-output">
+            <!-- AI output from API will appear here -->
+        </div>
+        <a href="#" class="alert alert-light" role="alert" id="google-fit-btn">
+            Recommend based on Google Fit data
+        </a>        
+        <a href="#" class="alert alert-light" role="alert">
+            Make it vegan!
+        </a>
+        <a href="#" class="alert alert-light" role="alert">
+            Make it healthier!
+        </a>
+    </div>
+
+    <script>
+        // Dropdown functionality
+        const dropdownButton = document.querySelector('.dropdown-button');
+        const dropdownContent = document.querySelector('.dropdown-content');
+        
+        dropdownButton.addEventListener('click', () => {
+            dropdownContent.style.display = dropdownContent.style.display === 'block' ? 'none' : 'block';
+        });
+        
+        // Close dropdown when clicking outside
+        window.addEventListener('click', (event) => {
+            if (!event.target.matches('.dropdown-button') && !event.target.parentNode.matches('.dropdown-button')) {
+                dropdownContent.style.display = 'none';
+            }
+        });
+        
+        // Servings selection
+        const servingsOptions = document.querySelectorAll('.dropdown-content a');
+        servingsOptions.forEach(option => {
+            option.addEventListener('click', (e) => {
+                e.preventDefault();
+                const servings = parseInt(e.target.getAttribute('data-servings'));
+                
+                // Update dropdown button text
+                dropdownButton.innerHTML = `${servings} Serving${servings > 1 ? 's' : ''} <span>▼</span>`;
+                
+                // Update measurements based on new servings
+                const measurements = document.querySelectorAll('.measurement');
+                measurements.forEach(measurement => {
+                    const baseAmount = parseFloat(measurement.getAttribute('data-base'));
+                    const type = measurement.getAttribute('data-type');
+                    
+                    if (type === 'count') {
+                        // For count-based ingredients like eggs
+                        const newAmount = Math.round(baseAmount * servings / 2);
+                        measurement.textContent = `${newAmount} LARGE`;
+                    } else {
+                        // For volume-based measurements
+                        const newAmount = (baseAmount * servings / 2).toFixed(2).replace(/\.00$/, '');
+                        const unit = measurement.textContent.split(' ')[1];
+                        measurement.textContent = `${newAmount} ${unit}`;
+                    }
+                });
+                
+                // Hide dropdown after selection
+                dropdownContent.style.display = 'none';
+            });
+        });
+        
+        // Checkbox functionality
+        const checkboxes = document.querySelectorAll('.custom-checkbox');
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('click', () => {
+                checkbox.classList.toggle('checked');
+                updateBubbleCount();
+            });
+        });
+        
+        // Update bubble count
+        function updateBubbleCount() {
+            const checkedCount = document.querySelectorAll('.custom-checkbox.checked').length;
+            const bubble = document.querySelector('.bubble');
+            
+            if (checkedCount > 0) {
+                bubble.textContent = checkedCount;
+                bubble.style.display = 'flex';
+            } else {
+                bubble.style.display = 'none';
+            }
+        }
+        
+        // Initialize bubble count
+        updateBubbleCount();
+        
+        // Start cooking buttons (both in nav and in card)
+        const startButton = document.querySelector('.start-button');
+        const startCookingNav = document.getElementById('start-cooking-nav');
+        
+        function startCooking() {
+            alert('Let\'s start cooking! First, preheat your oven to 350°F (175°C).');
+        }
+        
+        startButton.addEventListener('click', startCooking);
+        startCookingNav.addEventListener('click', (e) => {
+            e.preventDefault();
+            startCooking();
+        });
+    </script>
 </body>
 </html>
