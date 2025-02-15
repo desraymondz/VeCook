@@ -150,7 +150,10 @@ def get_next_step():
         next_step = RECIPE["steps"][user_state["current_step"]]
     elif user_state["current_step"] == len(RECIPE["steps"]) - 1:
         user_state["current_step"] += 1
-    return jsonify({"response": next_step})
+    return jsonify({
+        "step_content": next_step,
+        "step_number": user_state["current_step"]
+    })
 
 @app.route('/get_previous_step', methods=['GET'])
 def get_previous_step():
@@ -161,7 +164,10 @@ def get_previous_step():
         previous_step = RECIPE["steps"][user_state["current_step"]]
     elif user_state["current_step"] == 0:
         user_state["current_step"] -= 1
-    return jsonify({"response": previous_step})
+    return jsonify({
+        "step_content": previous_step,
+        "step_number": user_state["current_step"]
+    })
 
 if __name__ == "__main__":
     app.run(debug=True)

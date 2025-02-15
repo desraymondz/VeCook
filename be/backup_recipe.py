@@ -1,5 +1,3 @@
-
-
 RECIPE_VEGAN = {
     "title": "Vegan Mac & Cheese",
     "ingredients": [
