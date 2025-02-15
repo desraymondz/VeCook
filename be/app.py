@@ -43,7 +43,7 @@ def answer_question(user_id, user_message):
                 
                 User's current step: {RECIPE["steps"][user_state['current_step']]}
 
-                Answer questions based only on these recipes and general cooking knowledge. Shorten answers to at most 2 sentences.
+                Answer questions based only on this recipe and general cooking knowledge. Shorten answers to at most 2 sentences.
             """}
         ]
 
@@ -83,7 +83,9 @@ def get_next_step():
     """Return the next step in the recipe."""
     next_step = "END"
     if user_state["current_step"] < len(RECIPE["steps"]) - 1:
+        user_state["current_step"] += 1
         next_step = RECIPE["steps"][user_state["current_step"]]
+    elif user_state["current_step"] == len(RECIPE["steps"]) - 1:
         user_state["current_step"] += 1
     return jsonify({"response": next_step})
 
@@ -92,10 +94,11 @@ def get_previous_step():
     """Return the previous step in the recipe."""
     previous_step = "START"
     if user_state["current_step"] > 0:
+        user_state["current_step"] -= 1
         previous_step = RECIPE["steps"][user_state["current_step"]]
+    elif user_state["current_step"] == 0:
         user_state["current_step"] -= 1
     return jsonify({"response": previous_step})
 
 if __name__ == "__main__":
-    # app.run(debug=True)
-    print(answer_question("1", "Oh oops sorry I read it wrongly"))
+    app.run(debug=True)
