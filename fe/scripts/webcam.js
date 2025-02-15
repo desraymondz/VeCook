@@ -83,7 +83,7 @@ function draw() {
                 if (isFingerPointingUp(hand, fingers[i])) {
                     console.log("Hand is OPEN and UP✋");
                     // console.log(fingers[i] + " is pointing UP 👆");
-                }
+                } 
             }
         }
 
