@@ -29,7 +29,7 @@ function setup() {
     handPose.detectStart(video, gotHands);
 
     // 🎥 Setup MediaRecorder
-    const stream = canvas.elt.captureStream(1); // 1 FPS for timelapse
+    const stream = canvas.elt.captureStream(20); // 1 FPS for timelapse
     mediaRecorder = new MediaRecorder(stream, {
         mimeType: 'video/webm',
         videoBitsPerSecond: 2500000
