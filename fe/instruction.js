@@ -61,10 +61,11 @@ function isFingerStretched(hand, fingerName) {
 
     let handLength = dist(wrist.x, wrist.y, mcp.x, mcp.y);
     let stretchDistance = dist(tip.x, tip.y, mcp.x, mcp.y);
-    let isFarEnough = stretchDistance > handLength * 0.6;
-    let isStraight = tip.y < dip.y && dip.y < pip.y && pip.y < mcp.y;
+    let isFarEnough = stretchDistance > handLength * 0.8;
+    // let isStraight = tip.y < dip.y && dip.y < pip.y && pip.y < mcp.y;
 
-    return isFarEnough && isStraight;
+    return isFarEnough;
+    // return isFarEnough && isStraight;
 }
 
 function isFingerPointingLeftRight(hand, fingerName) {
