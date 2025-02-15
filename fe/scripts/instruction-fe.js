@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Event when speech is recognized
     recognition.onresult = (event) => {
-        transcript = event.results[event.results.length - 1][0].transcript;
+        transcript = event.results[event.results.length - 1][0].transcript.toLowerCase().trim();
         console.log("Recognized:", transcript);
 
         // Reset silence timer every time the user speaks
@@ -70,7 +70,21 @@ document.addEventListener('DOMContentLoaded', () => {
         silenceTimer = setTimeout(() => {
             console.log("User paused. Sending data...");
             sendToBackend(transcript);
-            // stopListening(); // Stop listening after sending
+
+            // Detect commands like "copilot next", "copilot back", and "copilot help"
+            if (transcript.includes("copilot")) {
+                console.log("copilot detected:", transcript);
+                if (transcript.includes("next")) {
+                    console.log("Command detected: next");
+                    nextStep();
+                } else if (transcript.includes("back")) {
+                    console.log("Command detected: back");
+                    prevStep();
+                } else if (transcript.includes("help")) {
+                    console.log("Command detected: help");
+                    sendToBackend();
+                }
+            }
         }, 1000);
     };
 
