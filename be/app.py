@@ -43,7 +43,7 @@ def answer_question(user_id, user_message):
                 
                 User's current step: {RECIPE["steps"][user_state['current_step']]}
 
-                Answer questions based only on these recipes and general cooking knowledge. Shorten answers to at most 2 sentences.
+                Answer questions based only on this recipe and general cooking knowledge. Shorten answers to at most 2 sentences.
             """}
         ]
 
@@ -102,4 +102,3 @@ def get_previous_step():
 
 if __name__ == "__main__":
     app.run(debug=True)
-    # print(answer_question("Oh no I accidentally put too much water, what should I do?"))
