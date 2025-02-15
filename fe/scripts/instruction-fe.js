@@ -22,6 +22,8 @@ function toggleMic() {
 
 // Wait for the DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', () => {
+    const listeningStatus = document.getElementById("listening-status");
+
     const micButton = document.getElementById("mic-btn");
     const micIcon = micButton.querySelector(".mic-icon");
     const micMuteIcon = micButton.querySelector(".mic-mute-icon");
@@ -62,6 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
     recognition.onresult = (event) => {
         transcript = event.results[event.results.length - 1][0].transcript.toLowerCase().trim();
         console.log("Recognized:", transcript);
+        listeningStatus.innerHTML = transcript;
 
         // Reset silence timer every time the user speaks
         if (silenceTimer) clearTimeout(silenceTimer);
@@ -72,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
             sendToBackend(transcript);
 
             // Detect commands like "copilot next", "copilot back", and "copilot help"
-            if (transcript.includes("copilot")) {
+            if (transcript.includes("copilot") || transcript.includes("co-pilot")) {
                 console.log("copilot detected:", transcript);
                 if (transcript.includes("next")) {
                     console.log("Command detected: next");
@@ -97,9 +100,18 @@ document.addEventListener('DOMContentLoaded', () => {
             },
             body: JSON.stringify({ message: text }) // Send speech as JSON
         })
-        .then(response => response.json())
-        .then(data => console.log("Response from server:", data))
-        .catch(error => console.error("Error:", error));
+        .then(response => response.json()) // Parse the JSON response
+        .then(data => {
+            // Update the innerHTML of the listening-status with the API response
+            const listeningStatus = document.getElementById("listening-status");
+            listeningStatus.innerHTML = data.response; // Assuming the API returns an object with a "response" property
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            // Optionally, display an error message if the API call fails
+            const listeningStatus = document.getElementById("listening-status");
+            listeningStatus.innerHTML = "An error occurred. Please try again.";
+        });
     }
 
     // Expose startListening globally
