@@ -78,25 +78,25 @@ function draw() {
 
         // When index, middle, ring finger is open
         if (isHandOpen(hand)) {
-            let fingers = ["index_finger", "middle_finger", "ring_finger"];
-            for (let i = 0; i < fingers.length; i++) {
-                if (isFingerPointingUp(hand, fingers[i])) {
-                    handTimer++;
-                    console.log("Hand is OPEN and UP✋");
-                    if (handTimer/3 == timeToExecute) {
-                        console.log("API Called: handTimer", handTimer);
-                        toggleMic();
-                        // TODO: maybe start recording when hands up
-                        handTimer = 0;
-                        // console.log(fingers[i] + " is pointing UP 👆");
+            if (isHandOpen(hand)) {
+                let fingers = ["index_finger", "middle_finger", "ring_finger"];
+                for (let i = 0; i < fingers.length; i++) {
+                    if (isFingerPointingUp(hand, fingers[i])) {
+                        handTimer++;
+                        console.log("Hand is OPEN and UP✋");
+                        if (handTimer / 3 == timeToExecute) {
+                            console.log("API Called: handTimer", handTimer);
+                            toggleMic();
+                            // TODO: maybe start recording when hands up
+                            handTimer = 0;
+                            // console.log(fingers[i] + " is pointing UP 👆");
+                        }
                     }
-                } 
+                }
+            } else {
+                handTimer = 0;
             }
-        } else {
-            handTimer = 0;
-        }
-
-        if (isFingerStretched(hand, "index_finger")) {
+        } else if (isFingerStretched(hand, "index_finger")) {
             let direction = isFingerPointingLeftRight(hand, "index_finger");
 
             if (direction === "right") {
@@ -107,23 +107,24 @@ function draw() {
                 rightIndexFingerTimer++;
                 if (rightIndexFingerTimer == timeToExecute) {
                     console.log("API Called: rightIndexFingerTimer", rightIndexFingerTimer);
-                    fetchNextStep();  // Fetch and log the next step from the backend
+                    nextStep();  // Fetch and log the next step from the backend
                     rightIndexFingerTimer = 0;
                 }
             } else if (direction === "left") {
                 console.log("Index finger is pointing LEFT 👈");
                 // reset the right index finger timer
                 rightIndexFingerTimer = 0;
-                
+
                 leftIndexFingerTimer++;
                 if (leftIndexFingerTimer == timeToExecute) {
-                    fetchPreviousStep();  // Fetch and log the next step from the backend
+                    prevStep();  // Fetch and log the next step from the backend
                     leftIndexFingerTimer = 0;
                 }
             }
         } else {
             rightIndexFingerTimer = 0;
             leftIndexFingerTimer = 0;
+            handTimer = 0;
             // console.log("timer reseted")
         }
 
@@ -138,6 +139,7 @@ function draw() {
     } else {
         rightIndexFingerTimer = 0;
         leftIndexFingerTimer = 0;
+        handTimer = 0;
         // console.log("timer reseted")
     }
 
@@ -152,7 +154,7 @@ function draw() {
     strokeWeight(0);
     fill("orange");
     // rect(0, height - 50, map(handTimer + rightIndexFingerTimer + leftIndexFingerTimer, 0, timeToExecute, 0, width), 50);
-    rect(0, height - 50, map(rightIndexFingerTimer + leftIndexFingerTimer, 0, timeToExecute, 0, width), 50);
+    rect(0, height - 50, map((handTimer / 3) + rightIndexFingerTimer + leftIndexFingerTimer, 0, timeToExecute, 0, width), 50);
 }
 
 // Store only the first detected hand
@@ -237,7 +239,7 @@ function isHandOpen(hand) {
 
     // excluding thumb and pinky
     let fingers = ["index_finger", "middle_finger", "ring_finger"];
-    
+
     // Check if all fingers are stretched
     return fingers.every(finger => isFingerStretched(hand, finger));
 }
