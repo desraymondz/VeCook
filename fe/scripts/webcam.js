@@ -81,10 +81,19 @@ function draw() {
             let fingers = ["index_finger", "middle_finger", "ring_finger"];
             for (let i = 0; i < fingers.length; i++) {
                 if (isFingerPointingUp(hand, fingers[i])) {
+                    handTimer++;
                     console.log("Hand is OPEN and UP✋");
-                    // console.log(fingers[i] + " is pointing UP 👆");
-                }
+                    if (handTimer/3 == timeToExecute) {
+                        console.log("API Called: handTimer", handTimer);
+                        toggleMic();
+                        // TODO: maybe start recording when hands up
+                        handTimer = 0;
+                        // console.log(fingers[i] + " is pointing UP 👆");
+                    }
+                } 
             }
+        } else {
+            handTimer = 0;
         }
 
         if (isFingerStretched(hand, "index_finger")) {

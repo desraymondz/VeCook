@@ -7,11 +7,9 @@
     <title>Voice Navigation Steps</title>
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-    <!-- JS -->
-    <script src="scripts/instruction-fe.js"></script>
-
+    
     <!-- CSS -->
     <link href="styles/instruction.css" rel="stylesheet">
     <link href="styles/global.css" rel="stylesheet">
@@ -21,8 +19,9 @@
 
     <!-- ml5.js library -->
     <script src="https://unpkg.com/ml5@1/dist/ml5.min.js"></script>
-
+    
     <!-- Scripts -->
+    <script src="scripts/instruction-fe.js"></script>
     <script src="scripts/global.js"></script>
     <script src="scripts/api-calls.js"></script>
     <script src="scripts/webcam.js"></script>
@@ -71,7 +70,7 @@
             </div>
         </div>
     </div>
-
+    
     <!-- Listening Status -->
     <p class="listening-text ms-5 mb-4" id="listening-status">Listening...</p>
 
@@ -84,12 +83,8 @@
         </button>
 
         <button class="mic-button" id="mic-btn">
-            <svg class="mic-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
-                <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
-                <line x1="12" y1="19" x2="12" y2="23" />
-                <line x1="8" y1="23" x2="16" y2="23" />
-            </svg>
+            <i class="bi bi-mic mic-icon"></i>
+            <i class="bi bi-mic-mute mic-mute-icon"></i>
         </button>
 
         <button class="navigation-button next-button" id="next-btn">
