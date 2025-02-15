@@ -13,24 +13,38 @@ load_dotenv()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 RECIPE = {
-    "title": "Whole Wheat Blueberry Brownies",
+    "title": "Creamy Mac & Cheese",
     "ingredients": [
-        "flour", "sugar", "cocoa powder", "eggs", "milk", "butter", "baking powder"
+        "2 cups elbow macaroni",
+        "2 cups shredded cheddar cheese",
+        "1 ½ cups milk",
+        "2 tbsp butter",
+        "2 tbsp all-purpose flour",
+        "1 tsp salt",
+        "½ tsp black pepper",
+        "½ tsp garlic powder"
     ],
     "steps": [
-        "Combine dry ingredients in one bowl, and wet ingredients in another bowl except berries.",
-        "Heat the oven to 350 degrees and spray an 8 x 8 x 2-inch pan with cooking spray.",
-        "Combine wet and dry ingredients until smooth, then fold in berries.",
-        "Pour into baking dish and bake for 20 25 minutes until a toothpick inserted in the center came out clean."
+        "Boil water in a pot, add a pinch of salt.",
+        "Cook macaroni until al dente, then drain and set aside.",
+        "In a saucepan, melt butter over medium heat.",
+        "Add flour and whisk for 1-2 minutes until it turns slightly golden.",
+        "Slowly pour in the milk while whisking to avoid lumps.",
+        "Add salt, pepper, and garlic powder.",
+        "Mix in optional ingredients like spinach, grilled chicken, or yogurt for creaminess.",
+        "Add cooked pasta to the cheese sauce and mix well."
     ]
 }
 
 user_state = {
     "current_step": 0,
-    "mistakes": []
+    "preference": None
 }
 
 user_history = {}
+
+def change_recipe(user_id, preference):
+    pass
 
 def answer_question(user_id, user_message):
     """Answer the user's question based on the recipe or general knowledge while keeping conversation history."""
@@ -67,8 +81,18 @@ def answer_question(user_id, user_message):
 
     return bot_response
 
-@app.route('/chat', methods=['POST'])
-def chat():
+@app.route('/personalize', methods=['POST'])
+def personalize():
+    """Personalize recipe based on user's preference."""
+    data = request.json
+    user_id = data.get("user_id", "default_user")
+    preference = data.get('preference', "")
+
+    new_ingredients = change_recipe(user_id, preference)
+    return jsonify({"response": new_ingredients})
+
+@app.route('/help', methods=['POST'])
+def help():
     """Handle chat requests and maintain user history."""
     data = request.json
     user_id = data.get("user_id", "default_user")  # Use a unique identifier for each user (e.g., session ID)
