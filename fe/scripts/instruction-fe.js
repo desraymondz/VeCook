@@ -105,15 +105,34 @@ document.addEventListener('DOMContentLoaded', () => {
             // Update the innerHTML of the listening-status with the API response
             const listeningStatus = document.getElementById("listening-status");
             listeningStatus.innerHTML = data.response; // Assuming the API returns an object with a "response" property
+    
+            // Select the Google US English Female voice
+            const voices = speechSynthesis.getVoices();
+            const selectedVoice = voices.find(voice => 
+                voice.name === "Google US English" && voice.gender === "female"
+            );
+    
+            // If the voice is found, use it for speech synthesis
+            const utterance = new SpeechSynthesisUtterance(data.response);
+            if (selectedVoice) {
+                utterance.voice = selectedVoice; // Set to selected Google US Female voice
+            }
+            
+            speechSynthesis.speak(utterance); // This will speak the response
         })
         .catch(error => {
             console.error("Error:", error);
             // Optionally, display an error message if the API call fails
             const listeningStatus = document.getElementById("listening-status");
             listeningStatus.innerHTML = "An error occurred. Please try again.";
+    
+            // Optional: Handle error in speech as well
+            const errorMessage = "Sorry, something went wrong.";
+            const utterance = new SpeechSynthesisUtterance(errorMessage);
+            speechSynthesis.speak(utterance);
         });
     }
-
+    
     // Expose startListening globally
     window.startListening = startListening;
     window.stopListening = stopListening;
