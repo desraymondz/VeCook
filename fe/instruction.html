@@ -1,27 +1,103 @@
-<!-- Instruction page: where comp vision, TTS, STT, LLM usage -->
-
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Instructions for Recipe</title>
-        <!-- p5.js library -->
-        <!-- Source: https://p5js.org/download/ -->
-        <script src="https://cdn.jsdelivr.net/npm/p5@1.11.3/lib/p5.min.js"></script>
-        
-        <!-- ml5.js library -->
-        <!-- Source: https://docs.ml5js.org/#/ -->
-        <script src="https://unpkg.com/ml5@1/dist/ml5.min.js"></script>
-        
-        <!-- Scripts -->
-        <script src="global.js"></script>
-        <script src="api-calls.js"></script>
-        <script src="instruction.js"></script>
 
-        <style> body {padding: 0; margin: 0;} </style>
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voice Navigation Steps</title>
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- JS -->
+    <script src="scripts/instruction-fe.js"></script>
+    
+    <!-- CSS -->
+    <link href="styles/instruction.css" rel="stylesheet">
+    <link href="styles/instruction.css" rel="stylesheet">
+    
+    <!-- p5.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.3/lib/p5.min.js"></script>
+    
+    <!-- ml5.js library -->
+    <script src="https://unpkg.com/ml5@1/dist/ml5.min.js"></script>
 
-    <body>
-    </body>
+    <!-- Scripts -->
+    <script src="scripts/global.js"></script>
+    <script src="scripts/api-calls.js"></script>
+    <script src="scripts/webcam.js"></script>
+
+    <style>
+        /* Canvas styling to ensure it is above the content */
+        #canvas-container {
+            position: relative;
+            z-index: 10; /* Canvas appears above the content */
+            margin-bottom: 20px; /* Space between canvas and content */
+        }
+
+        #defaultCanvas0 {
+            display: block;
+            width: 100%; /* Make the canvas width responsive */
+            height: 400px; /* Set the height */
+        }
+
+        /* Make the container and content below follow naturally */
+        .container.mt-5 {
+            margin-top: 5rem; /* Adjusted for more space */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="webcam-steps">
+        <!-- p5.js canvas will be placed here -->
+        <div id="canvas-container">
+            <!-- This is where the p5.js canvas will be attached -->
+        </div>
+        
+        <div class="container mt-5">
+            <div class="row">
+                <div class="">
+                    <!-- Step Content -->
+                    <div class="d-flex align-items-start mb-4">
+                        <div class="step-number">1</div>
+                        <div class="ms-4">
+                            <h2 class="fw-bold mb-3">Steps:</h2>
+                            <p class="steps-text" id="step-content">heat the pan with high heat</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+                    
+    <!-- Listening Status -->
+    <p class="listening-text ms-5 mb-4" id="listening-status">Listening...</p>
+    
+    <!-- Navigation Controls -->
+    <div class="d-flex justify-content-between align-items-center">
+        <button class="navigation-button prev-button" id="prev-btn">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2">
+            <path d="M19 12H5M12 19l-7-7 7-7" />
+            </svg>
+        </button>
+    
+        <button class="mic-button" id="mic-btn">
+            <svg class="mic-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+            <line x1="12" y1="19" x2="12" y2="23" />
+            <line x1="8" y1="23" x2="16" y2="23" />
+            </svg>
+        </button>
+    
+        <button class="navigation-button next-button" id="next-btn">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+        </button>
+    </div>
+</body>
 </html>

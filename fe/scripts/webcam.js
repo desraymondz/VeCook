@@ -1,4 +1,4 @@
-// for instruction page script
+// for instruction page (webcam) script
 
 let handPose;
 let video;
@@ -22,9 +22,10 @@ function preload() {
 }
 
 function setup() {
-    canvas = createCanvas(400, 300); // 🎥 Updated to use canvas
+    canvas = createCanvas(500, 375); // 🎥 Updated to use canvas
+    canvas.parent('canvas-container'); // Attach the canvas to the div with id 'canvas-container'
     video = createCapture(VIDEO);
-    video.size(400, 300);
+    video.size(500, 375);
     video.hide();
     handPose.detectStart(video, gotHands);
 
