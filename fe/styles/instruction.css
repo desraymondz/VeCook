@@ -15,12 +15,13 @@
     height: 80px;
     background-color: #ff6347;
     color: white;
-    font-size: 2rem;
+    font-size: 4rem;
     font-weight: bold;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 10px;
+    padding: 1rem;
 }
 
 .navigation-button {
@@ -60,8 +61,14 @@
     height: 30px;
 }
 
+.steps-header {
+    font-size: 4rem;
+
+}
+
 .steps-text {
-    font-size: 1.5rem;
+    font-size: 3.5rem;
+    font-weight: 400;
 }
 
 .listening-text {
@@ -71,4 +78,28 @@
 
 .webcam-steps {
     display: flex;
+}
+
+/* .steps-bg {
+    background-color: rgba(255, 231, 226, 1);
+    width: auto;
+    height: auto;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+} */
+
+/* Make the .steps-bg take the remaining height */
+.steps-bg {
+    background-color: rgba(255, 231, 226, 1);
+    width: 100%; /* Full width */
+    flex-grow: 1; /* Ensure this div fills the remaining height */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box; /* Ensure padding doesn't affect the height */
+}
+
+#canvas-container {
+    min-width: 500px;
 }
