@@ -11,6 +11,13 @@ function toggleMic() {
     isMuted = !isMuted;  // Toggle the mute state
     micIcon.style.display = isMuted ? "none" : "flex";  // Show/hide icons based on mute state
     micMuteIcon.style.display = isMuted ? "flex" : "none"; 
+
+    // Start or stop listening based on mute state
+    if (isMuted) {
+        stopListening();
+    } else {
+        startListening();
+    }
 }
 
 // Wait for the DOM to be fully loaded
@@ -26,6 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Event listener to toggle mic when button is clicked
     micButton.addEventListener("click", () => {
         toggleMic(); // Toggle the mic state on button click
+        console.log("Mic is muted? " + isMuted);
     });
 
     // Speech recognition setup
@@ -80,10 +88,10 @@ document.addEventListener('DOMContentLoaded', () => {
         .catch(error => console.error("Error:", error));
     }
 
-    // Click event to start listening
-    // micButton.addEventListener("click", () => {
-    //     console.log("Mic button clicked");
-    // });
-    startListening();
-    window.startListening = startListening; // Expose the function globally
+    // Expose startListening globally
+    window.startListening = startListening;
+    window.stopListening = stopListening;
+
+    // Initialize the mic state (muted by default)
+    toggleMic();
 });

@@ -85,7 +85,8 @@ function draw() {
                     console.log("Hand is OPEN and UP✋");
                     if (handTimer/3 == timeToExecute) {
                         console.log("API Called: handTimer", handTimer);
-                        // strat recording
+                        toggleMic();
+                        // TODO: maybe start recording when hands up
                         handTimer = 0;
                         // console.log(fingers[i] + " is pointing UP 👆");
                     }
