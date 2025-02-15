@@ -47,7 +47,9 @@ function draw() {
 
             if (direction === "right") {
                 console.log("Index finger is pointing RIGHT 👉");
+                fetchNextStep();  // Fetch and log the next step from the backend
             } else if (direction === "left") {
+                fetchPreviousStep();
                 console.log("Index finger is pointing LEFT 👈");
             }
         }
