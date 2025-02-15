@@ -3,6 +3,9 @@
 let handPose;
 let video;
 let hand = null; // Store only ONE hand
+let rightIndexFingerTimer = 0;
+let leftIndexFingerTimer = 0;
+let handTimer = 0;
 
 function preload() {
     handPose = ml5.handPose();
@@ -47,10 +50,25 @@ function draw() {
 
             if (direction === "right") {
                 console.log("Index finger is pointing RIGHT 👉");
-                fetchNextStep();  // Fetch and log the next step from the backend
+                // reset the right index finger timer
+                leftIndexFingerTimer = 0;
+
+                rightIndexFingerTimer++;
+                if (rightIndexFingerTimer == 60) {
+                    console.log("API Called: rightIndexFingerTimer", rightIndexFingerTimer);
+                    fetchNextStep();  // Fetch and log the next step from the backend
+                    rightIndexFingerTimer = 0;
+                }
             } else if (direction === "left") {
-                fetchPreviousStep();
                 console.log("Index finger is pointing LEFT 👈");
+                // reset the right index finger timer
+                rightIndexFingerTimer = 0;
+                
+                leftIndexFingerTimer++;
+                if (leftIndexFingerTimer == 60) {
+                    fetchPreviousStep();  // Fetch and log the next step from the backend
+                    leftIndexFingerTimer = 0;
+                }
             }
         }
 
@@ -62,6 +80,10 @@ function draw() {
             noStroke();
             circle(mirroredX, keypoint.y, 10);
         }
+    } else {
+        rightIndexFingerTimer = 0;
+        leftIndexFingerTimer = 0;
+        // console.log("timer reseted")
     }
 }
 

@@ -82,8 +82,10 @@ def chat():
 def get_next_step():
     """Return the next step in the recipe."""
     next_step = "END"
-    if user_state["current_step"] < len(RECIPE["steps"]):
+    if user_state["current_step"] < len(RECIPE["steps"]) - 1:
+        user_state["current_step"] += 1
         next_step = RECIPE["steps"][user_state["current_step"]]
+    elif user_state["current_step"] == len(RECIPE["steps"]) - 1:
         user_state["current_step"] += 1
     return jsonify({"response": next_step})
 
@@ -92,7 +94,9 @@ def get_previous_step():
     """Return the previous step in the recipe."""
     previous_step = "START"
     if user_state["current_step"] > 0:
+        user_state["current_step"] -= 1
         previous_step = RECIPE["steps"][user_state["current_step"]]
+    elif user_state["current_step"] == 0:
         user_state["current_step"] -= 1
     return jsonify({"response": previous_step})
 
