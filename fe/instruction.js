@@ -24,6 +24,18 @@ function draw() {
     pop();
 
     if (hand) {
+        let fingers = ["thumb", "index_finger", "middle_finger", "ring_finger", "pinky"];
+        let stretchedFingers = fingers.filter(finger => isFingerStretched(hand, finger));
+
+        if (stretchedFingers.length > 0) {
+            console.log("Stretched fingers:", stretchedFingers.join(", "));
+        }
+
+        if (isHandOpen(hand)) {
+            console.log("Hand is OPEN ✋");
+        }
+
+
         if (isFingerStretched(hand, "index_finger")) {
             let direction = isFingerPointingLeftRight(hand, "index_finger");
 
@@ -61,11 +73,24 @@ function isFingerStretched(hand, fingerName) {
 
     let handLength = dist(wrist.x, wrist.y, mcp.x, mcp.y);
     let stretchDistance = dist(tip.x, tip.y, mcp.x, mcp.y);
-    let isFarEnough = stretchDistance > handLength * 0.8;
-    // let isStraight = tip.y < dip.y && dip.y < pip.y && pip.y < mcp.y;
+    let isFarEnough = stretchDistance > handLength * 0.5; // Increased sensitivity
 
-    return isFarEnough;
-    // return isFarEnough && isStraight;
+    // TODO: thumb and pinky not working
+    // if (fingerName === "thumb") {
+    //     // Check if the thumb is stretched outwards
+    //     thumbIsStrecthed = dist(wrist.x, wrist.y, mcp.x, mcp.y) > handLength * 0.5;
+
+    //     // Increase horizontal spread sensitivity for thumb
+    //     return tip.x > mcp.x + handLength * 0.05; // Increase this value for more sensitivity
+    // } else if (fingerName === "pinky") {
+    //     // Increase vertical sensitivity for pinky
+    //     return isFarEnough && tip.y < dip.y && tip.x < mcp.x; // Ensure the pinky is stretched outwards
+    // } else {
+    //     // Normal fingers: check vertical straightness
+    //     return isFarEnough && tip.y < dip.y && dip.y < pip.y && pip.y < mcp.y;
+    // }
+    // Normal fingers: check vertical straightness
+    return isFarEnough && tip.y < dip.y && dip.y < pip.y && pip.y < mcp.y;
 }
 
 function isFingerPointingLeftRight(hand, fingerName) {
@@ -75,4 +100,11 @@ function isFingerPointingLeftRight(hand, fingerName) {
     if (!tip || !mcp) return "unknown";
 
     return tip.x > mcp.x ? "left" : "right"; // Adjusted for mirrored video
+}
+
+function isHandOpen(hand) {
+    let fingers = ["thumb", "index_finger", "middle_finger", "ring_finger", "pinky"];
+    
+    // Check if all fingers are stretched
+    return fingers.every(finger => isFingerStretched(hand, finger));
 }
