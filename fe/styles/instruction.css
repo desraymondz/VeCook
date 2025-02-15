@@ -1,0 +1,70 @@
+.body {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    height: 100vh;
+}
+
+.container {
+    height: 100vh;
+    margin: 0 !important;
+}
+
+.step-number {
+    width: 80px;
+    height: 80px;
+    background-color: #ff6347;
+    color: white;
+    font-size: 2rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+}
+
+.navigation-button {
+    width: 180px;
+    height: 70px;
+    border-radius: 35px;
+    font-size: 1.5rem;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.prev-button {
+    background-color: #ff9966;
+    color: white;
+}
+
+.next-button {
+    background-color: #ff6347;
+    color: white;
+}
+
+.mic-button {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background-color: #f0f0f0;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mic-icon {
+    width: 30px;
+    height: 30px;
+}
+
+.steps-text {
+    font-size: 1.5rem;
+}
+
+.listening-text {
+    font-size: 1.5rem;
+    color: #666;
+}
