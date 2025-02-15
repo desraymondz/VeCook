@@ -81,11 +81,6 @@ nav {
     transform: scale(1.05);
 }
 
-/* Prevent section title from being overlapped by navbar */
-#specialisation, #tech-used, #education, #certificates, #hobby, #organisation, #hackathons, #volunteering {
-    scroll-margin-top: 70px;    
-}
-
 /* Disable hover effects for mobile devices */
 @media (hover: none) 
 {

@@ -1,0 +1,105 @@
+.body {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    height: 100vh;
+}
+
+.container {
+    height: 100vh;
+    margin: 0 !important;
+}
+
+.step-number {
+    width: 80px;
+    height: 80px;
+    background-color: #ff6347;
+    color: white;
+    font-size: 4rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    padding: 1rem;
+}
+
+.navigation-button {
+    width: 180px;
+    height: 70px;
+    border-radius: 35px;
+    font-size: 1.5rem;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.prev-button {
+    background-color: #ff9966;
+    color: white;
+}
+
+.next-button {
+    background-color: #ff6347;
+    color: white;
+}
+
+.mic-button {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background-color: #f0f0f0;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mic-icon {
+    width: 30px;
+    height: 30px;
+}
+
+.steps-header {
+    font-size: 4rem;
+
+}
+
+.steps-text {
+    font-size: 3.5rem;
+    font-weight: 400;
+}
+
+.listening-text {
+    font-size: 1.5rem;
+    color: #666;
+}
+
+.webcam-steps {
+    display: flex;
+}
+
+/* .steps-bg {
+    background-color: rgba(255, 231, 226, 1);
+    width: auto;
+    height: auto;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+} */
+
+/* Make the .steps-bg take the remaining height */
+.steps-bg {
+    background-color: rgba(255, 231, 226, 1);
+    width: 100%; /* Full width */
+    flex-grow: 1; /* Ensure this div fills the remaining height */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box; /* Ensure padding doesn't affect the height */
+}
+
+#canvas-container {
+    min-width: 500px;
+}
