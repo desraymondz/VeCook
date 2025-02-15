@@ -1,0 +1,200 @@
+/* Custom font: Montserrat from Google Fonts https://fonts.google.com/specimen/Montserrat */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+/* Global Variables */
+:root {
+    --font-family: "Montserrat", sans-serif;
+    --color-primary: rgba(255, 249, 249, 1);
+    --color-secondary: rgba(232, 79, 47, 1);
+    --color-accent: rgba(240, 87, 55, 1);
+    /* --color-accent-dark: rgb(239, 170, 67);
+    --color-neutral-light: rgba(232, 234, 237, 1);
+    --color-neutral-dark: rgba(86, 110, 118, 1);
+    --color-neutral-dark-80: rgba(86, 110, 118, 0.8);
+    --color-neutral-dark-90: rgba(86, 110, 118, 0.9); */
+    --color-error: rgba(220, 53, 69, 1);
+    --color-error-light: rgba(249, 215, 218, 1);
+}
+
+/* Focus outline styling */
+:focus {
+    outline: 3px solid var(--color-accent-dark);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 1px var(--color-secondary);
+    border-radius: 2px;
+}
+
+/* Default styling */
+body {
+    font-family: var(--font-family);
+    margin: 0;
+    background-color: var(--color-primary);
+    color: var(--color-secondary);
+    font-size: 16px;
+    overflow-x: hidden;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Page container for consistent padding */
+.page-container {
+    margin-left: auto;
+    margin-right: auto;
+    width: 85vw;
+}
+
+/* For mobile device size */
+@media screen and (max-width: 650px) {
+    .page-container {
+        width: 96vw;
+    }
+    body {
+        font-size: 12px;
+    }
+}
+
+/* Main navbar custom styling */
+nav {
+    color: var(--color-secondary);
+    background-color: var(--color-accent);
+    font-weight: 600;
+}
+
+/* Website logo on navbar */
+.nav-logo {
+    height: 40px;
+    width: auto;
+}
+
+/* Navigation links */
+.navbar .nav-link {
+    color: var(--color-secondary);
+    border-radius: 0.5em;
+    margin-right: 1em;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+/* Add box shadow effect on hover */
+.navbar .nav-link:hover {
+    box-shadow: 0 0 3px var(--color-secondary);
+    transform: scale(1.05);
+}
+
+/* Prevent section title from being overlapped by navbar */
+#specialisation, #tech-used, #education, #certificates, #hobby, #organisation, #hackathons, #volunteering {
+    scroll-margin-top: 70px;    
+}
+
+/* Disable hover effects for mobile devices */
+@media (hover: none) 
+{
+    .navbar .nav-link:hover {
+        transform: none;
+        box-shadow: none;
+    }
+}
+
+/* Every section's title */
+.section-title {
+    font-size: 3em;
+    font-weight: 700;
+    margin-bottom: 0.5em;
+    margin-top: 0.5em;
+}
+
+/* Main blue yellow button */
+.main-btn {
+    margin: auto;
+    margin-top: 1em;
+    width: fit-content;
+    background-color: var(--color-accent);
+    color: var(--color-secondary);
+    font-weight: 600;
+    font-size: 1.4em;
+    border-radius: 0.5em;
+    border: none;
+    padding: 0.4em 1em;
+    text-decoration: none;
+    transition: all 0.1s ease-in-out;
+}
+
+/* Hover effect on button */
+.main-btn:hover {
+    transform: scale(1.02);
+    background-color: var(--color-accent-dark);
+}
+
+.main-btn i {
+    color: var(--color-secondary);
+}
+
+/* Highlights text with a blue background and yellow text */
+.highlight-blue-yellow {
+    background-color: var(--color-secondary);
+    color: var(--color-accent);
+}
+
+/* Highlights text with a blue background and yellow text */
+.highlight-yellow-blue {
+    background-color: var(--color-accent);
+    color: var(--color-secondary);
+}
+
+/* Animations on scroll */
+.hidden {
+    opacity: 0;
+    filter: blur(5px);
+}
+
+/* Slide in from the right */
+.slide-in-right {
+    opacity: 0;
+    transform: translateX(4%);
+    filter: blur(5px);
+    transition: all 0.5s ease-in-out;
+}
+
+.slide-in-right.show {
+    opacity: 1;
+    filter: blur(0px);
+    transform: translateX(0);
+}
+
+/* Slide in from the left */
+.slide-in-left {
+    opacity: 0;
+    transform: translateX(-4%);
+    filter: blur(5px);
+    transition: all 0.5s ease-in-out;
+}
+
+.slide-in-left.show {
+    opacity: 1;
+    filter: blur(0px);
+    transform: translateX(0);
+}
+
+/* Slide in from the bottom */
+.slide-in-bottom {
+    opacity: 0;
+    transform: translateY(4%);
+    filter: blur(5px);
+    transition: all 0.5s ease-in-out;
+}
+
+.slide-in-bottom.show {
+    opacity: 1;
+    filter: blur(0px);
+    transform: translateY(0);
+}
+
+/* Fade in */
+.fade-in {
+    opacity: 0;
+    transition: all 0.5s ease-in-out;
+}
+
+.fade-in.show {
+    opacity: 1;
+}
