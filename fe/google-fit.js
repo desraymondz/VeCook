@@ -65,9 +65,9 @@ async function getSteps() {
         }
 
         console.log('Steps:', totalSteps);
-        return totalSteps; // ✅ Return total steps
+        return totalSteps;
     } catch (error) {
         console.error('Error fetching step count:', error);
-        return 0; // Return 0 if an error occurs
+        return 0;
     }
 }

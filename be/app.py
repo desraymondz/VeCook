@@ -11,8 +11,9 @@ CORS(app)
 load_dotenv()
 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+GPT_MODEL = "gpt-4"
 
-RECIPE = {
+ORIGINAL_RECIPE = {
     "title": "Creamy Mac & Cheese",
     "ingredients": [
         "2 cups elbow macaroni",
@@ -26,7 +27,7 @@ RECIPE = {
     ],
     "steps": [
         "Boil water in a pot, add a pinch of salt.",
-        "Cook macaroni until al dente, then drain and set aside.",
+        "Cook macaroni until it's firm but tender when bitten, then drain and set aside.",
         "In a saucepan, melt butter over medium heat.",
         "Add flour and whisk for 1-2 minutes until it turns slightly golden.",
         "Slowly pour in the milk while whisking to avoid lumps.",
@@ -36,6 +37,8 @@ RECIPE = {
     ]
 }
 
+RECIPE = ORIGINAL_RECIPE
+
 user_state = {
     "current_step": 0,
     "preference": None
@@ -43,8 +46,41 @@ user_state = {
 
 user_history = {}
 
-def change_recipe(user_id, preference):
-    pass
+def change_recipe(preference):
+    """Change recipe based on user's preference"""
+    system_msg = f"""You are a helpful recipe advisor who can modify recipe based on user's preferences.
+                Here is the original recipe data:
+                {json.dumps(RECIPE, indent=2)}
+                
+                You must always respond with the following JSON object: 
+                {{
+                    "message": (Example: Since you are vegan, I have modified the recipe to be vegan friendly, such as changing ... summary it in 1 paragraph),
+                    "modified_recipe": {{
+                        "title": modified title (For example: Vegan Mac & Cheese)
+                        "ingredients": list of modified ingredients (ONLY CHANGE THE NECESSARY ONES),
+                        "steps": list of modified steps (ONLY CHANGE THE NECESSARY ONES)
+                    }}
+                }}
+                You must return this JSON object directly, without any apologies, explanations, or additional text.
+                """
+    
+    response = openai.ChatCompletion.create(
+        model="gpt-4",
+        api_key=OPENAI_API_KEY,
+        messages = [
+            {"role": "system", "content": system_msg},
+            {"role": "user", "content": preference}
+        ]
+    )
+
+    returning_response = response["choices"][0]["message"]["content"].strip().replace("\u00bd", "½")
+    try:
+        returning_response = json.loads(returning_response)
+    except json.JSONDecodeError:
+        returning_response = {}
+    RECIPE = returning_response.get("modified_recipe", ORIGINAL_RECIPE)
+
+    return returning_response
 
 def answer_question(user_id, user_message):
     """Answer the user's question based on the recipe or general knowledge while keeping conversation history."""
@@ -66,7 +102,7 @@ def answer_question(user_id, user_message):
 
     # Call OpenAI API with conversation history
     response = openai.ChatCompletion.create(
-        model="gpt-4",
+        model=GPT_MODEL,
         api_key=OPENAI_API_KEY,
         messages=user_history[user_id]
     )
@@ -81,15 +117,18 @@ def answer_question(user_id, user_message):
 
     return bot_response
 
+def get_ingredients():
+    """Fetch ingredients data."""
+    return jsonify({"response": RECIPE["ingredients"]})
+
 @app.route('/personalize', methods=['POST'])
 def personalize():
     """Personalize recipe based on user's preference."""
-    data = request.json
-    user_id = data.get("user_id", "default_user")
-    preference = data.get('preference', "")
+    preference = request.json.get('preference', "")
 
-    new_ingredients = change_recipe(user_id, preference)
-    return jsonify({"response": new_ingredients})
+    ai_response = change_recipe(preference)
+
+    return jsonify({"response": ai_response})
 
 @app.route('/help', methods=['POST'])
 def help():
