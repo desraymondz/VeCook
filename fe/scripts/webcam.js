@@ -57,7 +57,7 @@ function setup() {
 
     // 🎥 Add record button outside canvas
     recordButton = createButton('Start Recording');
-    recordButton.position(10, 400); // Adjust button position
+    recordButton.position(10, 384); // Adjust button position
     recordButton.mousePressed(toggleRecording);
 }
 

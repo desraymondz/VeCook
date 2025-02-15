@@ -25,14 +25,19 @@
 }
 
 .navigation-button {
-    width: 180px;
-    height: 70px;
+    width: 30%;
+    height: 100%;
     border-radius: 35px;
     font-size: 1.5rem;
     border: none;
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.navigation-button:hover {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    scale: 1.05;
 }
 
 .prev-button {
@@ -46,8 +51,8 @@
 }
 
 .mic-button {
-    width: 70px;
-    height: 70px;
+    width: 14em;
+    height: 14em;
     border-radius: 50%;
     background-color: #f0f0f0;
     border: none;
@@ -55,6 +60,10 @@
     align-items: center;
     justify-content: center;
     border: 1px solid #ccc;
+}
+
+.mic-button:focus {
+    border-radius: 50%;
 }
 
 .mic-button:hover {
@@ -80,6 +89,7 @@
 .listening-text {
     font-size: 1.5rem;
     color: #666;
+    text-align: center;
 }
 
 .webcam-steps {
@@ -102,7 +112,7 @@
 }
 
 .mic-button i {
-    font-size: 240%; /* Ensure both icons are the same size */
+    font-size: 640%; /* Ensure both icons are the same size */
     position: absolute; /* Stack them on top of each other */
     transition: opacity 0.2s ease-in-out;
 }
@@ -117,4 +127,29 @@
 .mic-mute-icon {
     color: #ff6347; /* Muted mic color */
     display: block; /* Start visible */
+}
+
+.transcription-nav-container {
+    height: auto;
+
+}
+
+.listening-status-container {
+    height: 14em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.nav-container {
+    height: 12em;
+    margin-left: 4em;
+    margin-right: 4em;
+}
+
+.bi-arrow-right, .bi-arrow-left {
+    font-size: 440%; /* Ensure both icons are the same size */
+    position: absolute; /* Stack them on top of each other */
+    transition: opacity 0.2s ease-in-out;
+    font-weight: 1000;
 }
