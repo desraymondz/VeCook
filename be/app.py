@@ -10,7 +10,7 @@ CORS(app)
 
 load_dotenv()
 
-openai.api_key = os.getenv("OPENAI_API_KEY")
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 RECIPE = {
     "title": "Whole Wheat Blueberry Brownies",
@@ -30,78 +30,72 @@ user_state = {
     "mistakes": []
 }
 
-# Tools for AI to call (using OpenAI function calling)
-def generate_next_step(current_step):
-    """Generate the next step in the recipe."""
-    if current_step < len(RECIPE["steps"]):
-        return RECIPE["steps"][current_step]
-    else:
-        return "END"
+user_history = {}
 
-def generate_previous_step(current_step):
-    """Generate the previous step in the recipe."""
-    if current_step > 0:
-        return RECIPE["steps"][current_step - 1]
-    else:
-        return "START"
+def answer_question(user_id, user_message):
+    """Answer the user's question based on the recipe or general knowledge while keeping conversation history."""
+    if user_id not in user_history:
+        user_history[user_id] = [
+            {"role": "system", "content": f"""
+                You are a professional chef specializing in answering recipe-related questions.
+                Here is the recipe data:
+                {json.dumps(RECIPE, indent=2)}
+                
+                User's current step: {RECIPE["steps"][user_state['current_step']]}
 
-def answer_question(user_message):
-    """Answer the user's question based on the recipe or general knowledge."""
-    system_message = f"""
-        You are a professional chef specializing in answering recipe-related questions.
-        Here is the recipe data:
-        {json.dumps(RECIPE, indent=2)}
-        
-        User's current step: {RECIPE["steps"][user_state['current_step']]}
+                Answer questions based only on these recipes and general cooking knowledge. Shorten answers to at most 2 sentences.
+            """}
+        ]
 
-        Answer questions based only on these recipes and general cooking knowledge.
-    """
+    # Add user message to history
+    user_history[user_id].append({"role": "user", "content": user_message})
 
+    # Call OpenAI API with conversation history
     response = openai.ChatCompletion.create(
         model="gpt-4",
-        messages=[
-            {"role": "system", "content": system_message},
-            {"role": "user", "content": user_message}
-        ]
+        api_key=OPENAI_API_KEY,
+        messages=user_history[user_id]
     )
 
-    return response["choices"][0]["message"]["content"].strip()
+    bot_response = response["choices"][0]["message"]["content"].strip()
 
-# Function for AI to handle different user inputs
-# def handle_user_input(user_input):
-#     """Handle the user input and determine whether to go to next step, previous step, or answer a question."""
-#     if "next" in user_input:
-#         user_state["current_step"] = min(user_state["current_step"] + 1, len(RECIPE["steps"]) - 1)
-#         return generate_next_step(user_state["current_step"])
+    # Add AI response to history
+    user_history[user_id].append({"role": "assistant", "content": bot_response})
 
-#     elif "previous" in user_input:
-#         user_state["current_step"] = max(user_state["current_step"] - 1, 0)
-#         return generate_previous_step(user_state["current_step"])
+    # Limit message history to last 10 messages to save tokens
+    user_history[user_id] = user_history[user_id][-10:]
 
-#     else:
-#         return answer_question(user_input)
+    return bot_response
 
 @app.route('/chat', methods=['POST'])
 def chat():
-    user_input = request.json.get('message', '').strip().lower()
-    response_text = answer_question(user_input)
+    """Handle chat requests and maintain user history."""
+    data = request.json
+    user_id = data.get("user_id", "default_user")  # Use a unique identifier for each user (e.g., session ID)
+    user_input = data.get("message", "").strip()
+
+    response_text = answer_question(user_id, user_input)
     
     return jsonify({"response": response_text})
 
 @app.route('/get_next_step', methods=['GET'])
 def get_next_step():
     """Return the next step in the recipe."""
-    next_step = generate_next_step(user_state["current_step"])
-    user_state["current_step"] += 1
+    next_step = "END"
+    if user_state["current_step"] < len(RECIPE["steps"]):
+        next_step = RECIPE["steps"][user_state["current_step"]]
+        user_state["current_step"] += 1
     return jsonify({"response": next_step})
 
 @app.route('/get_previous_step', methods=['GET'])
 def get_previous_step():
     """Return the previous step in the recipe."""
-    previous_step = generate_previous_step(user_state["current_step"])
-    user_state["current_step"] -= 1
+    previous_step = "START"
+    if user_state["current_step"] > 0:
+        previous_step = RECIPE["steps"][user_state["current_step"]]
+        user_state["current_step"] -= 1
     return jsonify({"response": previous_step})
 
 if __name__ == "__main__":
-    # app.run(debug=True)
-    print(answer_question("Oh no I accidentally put too much water, what should I do?"))
+    app.run(debug=True)
+    # print(answer_question("Oh no I accidentally put too much water, what should I do?"))
