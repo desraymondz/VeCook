@@ -98,9 +98,9 @@ def help():
     user_id = data.get("user_id", "default_user")  # Use a unique identifier for each user (e.g., session ID)
     user_input = data.get("message", "").strip()
 
-    response_text = answer_question(user_id, user_input)
+    # response_text = answer_question(user_id, user_input)
     
-    return jsonify({"response": response_text})
+    return jsonify({"response": "hello world, i am kitchen copilot, your personal chef"})
 
 @app.route('/get_next_step', methods=['GET'])
 def get_next_step():

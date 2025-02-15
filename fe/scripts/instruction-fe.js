@@ -1,56 +1,32 @@
-document.addEventListener('DOMContentLoaded', () => {
+// Make the mic state and toggle function global
+let isMuted = false;
 
-    // Steps data
-    const steps = [
-        "heat the pay with high heat",
-        "step 2 instruction here",
-        "step 3 instruction here"
-    ];
-
-    let currentStep = 0;
-    let isListening = false;
-
-    // DOM elements
-    const stepContent = document.getElementById('step-content');
-    const stepNumber = document.querySelector('.step-number');
-    const listeningStatus = document.getElementById('listening-status');
-    const prevBtn = document.getElementById('prev-btn');
-    const nextBtn = document.getElementById('next-btn');
-    const micBtn = document.getElementById('mic-btn');
-
-    // Update content
-    function updateStep() {
-        stepContent.textContent = steps[currentStep];
-        stepNumber.textContent = currentStep + 1;
-        listeningStatus.style.display = isListening ? 'block' : 'none';
-    }
-
-    // Event listeners
-    prevBtn.addEventListener('click', () => {
-        if (currentStep > 0) {
-            currentStep--;
-            updateStep();
-        }
-    });
-
-    nextBtn.addEventListener('click', () => {
-        if (currentStep < steps.length - 1) {
-            currentStep++;
-            updateStep();
-        }
-    });
-
-    micBtn.addEventListener('click', () => {
-        isListening = !isListening;
-        micBtn.style.backgroundColor = isListening ? '#e0e0e0' : '#f0f0f0';
-        updateStep();
-    });
-
-    // Initial update
-    updateStep();
-
-    // Select the mic button
+function toggleMic() {
+    // Ensure that the DOM elements are accessed only after they are available
     const micButton = document.getElementById("mic-btn");
+    const micIcon = micButton.querySelector(".mic-icon");
+    const micMuteIcon = micButton.querySelector(".mic-mute-icon");
+
+    // Toggle the mic state
+    isMuted = !isMuted;  // Toggle the mute state
+    micIcon.style.display = isMuted ? "none" : "flex";  // Show/hide icons based on mute state
+    micMuteIcon.style.display = isMuted ? "flex" : "none"; 
+}
+
+// Wait for the DOM to be fully loaded
+document.addEventListener('DOMContentLoaded', () => {
+    const micButton = document.getElementById("mic-btn");
+    const micIcon = micButton.querySelector(".mic-icon");
+    const micMuteIcon = micButton.querySelector(".mic-mute-icon");
+
+    // Ensure mic is muted by default
+    micIcon.style.display = "none";
+    micMuteIcon.style.display = "flex";
+
+    // Event listener to toggle mic when button is clicked
+    micButton.addEventListener("click", () => {
+        toggleMic(); // Toggle the mic state on button click
+    });
 
     // Speech recognition setup
     const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
@@ -86,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
         silenceTimer = setTimeout(() => {
             console.log("User paused. Sending data...");
             sendToBackend(transcript);
-            stopListening(); // Stop listening after sending
+            // stopListening(); // Stop listening after sending
         }, 1000);
     };
 
@@ -105,8 +81,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Click event to start listening
-    micButton.addEventListener("click", () => {
-        console.log("Mic button clicked");
-        startListening();
-    });
+    // micButton.addEventListener("click", () => {
+    //     console.log("Mic button clicked");
+    // });
+    startListening();
+    window.startListening = startListening; // Expose the function globally
 });
