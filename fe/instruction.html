@@ -13,10 +13,10 @@
     <!-- CSS -->
     <link href="styles/instruction.css" rel="stylesheet">
     <link href="styles/global.css" rel="stylesheet">
-    
+
     <!-- p5.js library -->
     <script src="https://cdn.jsdelivr.net/npm/p5@1.11.3/lib/p5.min.js"></script>
-    
+
     <!-- ml5.js library -->
     <script src="https://unpkg.com/ml5@1/dist/ml5.min.js"></script>
     
@@ -30,19 +30,24 @@
         /* Canvas styling to ensure it is above the content */
         #canvas-container {
             position: relative;
-            z-index: 10; /* Canvas appears above the content */
-            margin-bottom: 20px; /* Space between canvas and content */
+            z-index: 10;
+            /* Canvas appears above the content */
+            margin-bottom: 20px;
+            /* Space between canvas and content */
         }
 
         #defaultCanvas0 {
             display: block;
-            width: 100%; /* Make the canvas width responsive */
-            height: 400px; /* Set the height */
+            width: 100%;
+            /* Make the canvas width responsive */
+            height: 400px;
+            /* Set the height */
         }
 
         /* Make the container and content below follow naturally */
         .container.mt-5 {
-            margin-top: 5rem; /* Adjusted for more space */
+            margin-top: 5rem;
+            /* Adjusted for more space */
         }
     </style>
 </head>
@@ -53,14 +58,14 @@
         <div id="canvas-container">
             <!-- This is where the p5.js canvas will be attached -->
         </div>
-        
+
         <div class="steps-bg">
             <!-- Step Content -->
             <div class="d-flex align-items-start mb-4">
-                <div class="step-number">2</div>
+                <div class="step-number">1</div>
                 <div class="ms-4">
                     <h2 class="fw-bold mb-3 steps-header">Steps:</h2>
-                    <p class="steps-text" id="step-content">heat the pan with high heat heat the pan with high heat michelle</p>
+                    <p class="steps-text" id="step-content">Boil water in a pot, add a pinch of salt.</p>
                 </div>
             </div>
         </div>
@@ -68,27 +73,28 @@
     
     <!-- Listening Status -->
     <p class="listening-text ms-5 mb-4" id="listening-status">Listening...</p>
-    
+
     <!-- Navigation Controls -->
     <div class="d-flex justify-content-between align-items-center">
         <button class="navigation-button prev-button" id="prev-btn">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-            stroke-width="2">
-            <path d="M19 12H5M12 19l-7-7 7-7" />
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 12H5M12 19l-7-7 7-7" />
             </svg>
         </button>
-    
+
         <button class="mic-button" id="mic-btn">
             <i class="bi bi-mic mic-icon"></i>
             <i class="bi bi-mic-mute mic-mute-icon"></i>
         </button>
-    
+
         <button class="navigation-button next-button" id="next-btn">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-            stroke-width="2">
-            <path d="M5 12h14M12 5l7 7-7 7" />
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7" />
             </svg>
         </button>
     </div>
+
+    <script src="scripts/instruction-nextprev.js"></script>
 </body>
+
 </html>
