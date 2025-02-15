@@ -8,18 +8,56 @@ let leftIndexFingerTimer = 0;
 let handTimer = 0;
 
 // How many seconds to validate a user action
-let timeToExecute = 60;
+let timeToExecute = 90;
+
+// 🎥 Video Recording Variables
+let canvas;
+let isRecording = false;
+let mediaRecorder;
+let recordedChunks = [];
+let recordButton; // Button to control recording
 
 function preload() {
     handPose = ml5.handPose();
 }
 
 function setup() {
-    createCanvas(400, 300);
+    canvas = createCanvas(400, 300); // 🎥 Updated to use canvas
     video = createCapture(VIDEO);
     video.size(400, 300);
     video.hide();
     handPose.detectStart(video, gotHands);
+
+    // 🎥 Setup MediaRecorder
+    const stream = canvas.elt.captureStream(1); // 1 FPS for timelapse
+    mediaRecorder = new MediaRecorder(stream, {
+        mimeType: 'video/webm',
+        videoBitsPerSecond: 2500000
+    });
+
+    mediaRecorder.ondataavailable = function (e) {
+        if (e.data.size > 0) {
+            recordedChunks.push(e.data);
+        }
+    };
+
+    mediaRecorder.onstop = function () {
+        const blob = new Blob(recordedChunks, { type: 'video/webm' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        document.body.appendChild(a);
+        a.style = 'display: none';
+        a.href = url;
+        a.download = 'timelapse.webm'; // 🎥 Saves as WebM
+        a.click();
+        window.URL.revokeObjectURL(url);
+        recordedChunks = [];
+    };
+
+    // 🎥 Add record button outside canvas
+    recordButton = createButton('Start Recording');
+    recordButton.position(10, 320); // Adjust button position
+    recordButton.mousePressed(toggleRecording);
 }
 
 function draw() {
@@ -73,6 +111,10 @@ function draw() {
                     leftIndexFingerTimer = 0;
                 }
             }
+        } else {
+            rightIndexFingerTimer = 0;
+            leftIndexFingerTimer = 0;
+            // console.log("timer reseted")
         }
 
         for (let j = 0; j < hand.keypoints.length; j++) {
@@ -89,7 +131,14 @@ function draw() {
         // console.log("timer reseted")
     }
 
-    // Progress bar for the hand
+    // 🎥 Recording Indicator
+    if (isRecording) {
+        fill(255, 0, 0);
+        noStroke();
+        ellipse(20, 20, 20, 20);
+    }
+
+    // Progress bar
     strokeWeight(0);
     fill("orange");
     // rect(0, height - 50, map(handTimer + rightIndexFingerTimer + leftIndexFingerTimer, 0, timeToExecute, 0, width), 50);
@@ -99,6 +148,29 @@ function draw() {
 // Store only the first detected hand
 function gotHands(results) {
     hand = results.length > 0 ? results[0] : null;
+}
+
+function toggleRecording() {
+    if (isRecording) {
+        stopRecording();
+    } else {
+        startRecording();
+    }
+}
+
+function startRecording() {
+    isRecording = true;
+    recordedChunks = [];
+    mediaRecorder.start();
+    recordButton.html('Stop Recording');
+    console.log("🎥 Recording started...");
+}
+
+function stopRecording() {
+    isRecording = false;
+    mediaRecorder.stop();
+    recordButton.html('Start Recording');
+    console.log("🎥 Recording stopped, saving file...");
 }
 
 function isFingerStretched(hand, fingerName) {
