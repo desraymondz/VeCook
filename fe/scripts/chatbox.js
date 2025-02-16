@@ -86,9 +86,20 @@ document.addEventListener('DOMContentLoaded', function () {
         // Hide the Google Fit button after it's clicked
         googleFitButton.style.display = 'none';
 
-        // Call the Google Fit recommendation function
-        const recommendationMessage = recommend_google_fit();
-        addMessage(recommendationMessage, false); // Show response from Google Fit API
+        try {
+            // Call the Google Fit recommendation function and await the steps data
+            const recommendationMessage = await recommend_google_fit();
+
+            // After getting the Google Fit recommendation, call the personalize endpoint with "high protein"
+            const aiMessage = await getAIRecommendation("I have high activity level so I need high protein");
+
+            // Show response from AI (from personalize API)
+            addMessage(aiMessage, false);
+
+        } catch (error) {
+            console.error("Error in handleGoogleFitRecommendation:", error);
+            addMessage('Error fetching recommendation. Please try again.', false);
+        }
     }
 
     async function recommend_google_fit() {
@@ -103,11 +114,30 @@ document.addEventListener('DOMContentLoaded', function () {
                 stepsDisplay.textContent = `Steps taken today: ${steps}`;
             }
 
-            return "Connected to Google Fit API. Steps data fetched successfully!";
+            return "Google Fit steps data fetched successfully!";
         } catch (error) {
             console.error("Error in recommend_google_fit:", error);
             alert("Error fetching step data. Please try again.");
             return "Failed to fetch steps data.";
+        }
+    }
+
+    async function getAIRecommendation(upreference) {
+        try {
+            const response = await fetch('http://127.0.0.1:5000/personalize', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ preference: upreference })
+            });
+
+            const aiResponse = await response.json(); // Get AI response
+            addMessage(aiResponse.response?.message || "No response received.", false, true); // Show AI response with Yes/No buttons
+
+        } catch (error) {
+            console.error('Error sending message:', error);
+            addMessage('Sorry, something went wrong. Please try again.');
         }
     }
 
