@@ -12,16 +12,21 @@ function toggleMic() {
     micIcon.style.display = isMuted ? "none" : "flex";  // Show/hide icons based on mute state
     micMuteIcon.style.display = isMuted ? "flex" : "none"; 
 
+    const listeningStatus = document.getElementById("listening-status");
     // Start or stop listening based on mute state
     if (isMuted) {
         stopListening();
+        listeningStatus.innerHTML = "Muted";
     } else {
         startListening();
+        listeningStatus.innerHTML = "Listening...";
     }
 }
 
 // Wait for the DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', () => {
+    const listeningStatus = document.getElementById("listening-status");
+
     const micButton = document.getElementById("mic-btn");
     const micIcon = micButton.querySelector(".mic-icon");
     const micMuteIcon = micButton.querySelector(".mic-mute-icon");
@@ -60,8 +65,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Event when speech is recognized
     recognition.onresult = (event) => {
-        transcript = event.results[event.results.length - 1][0].transcript;
+        transcript = event.results[event.results.length - 1][0].transcript.toLowerCase().trim();
         console.log("Recognized:", transcript);
+        listeningStatus.innerHTML = transcript;
 
         // Reset silence timer every time the user speaks
         if (silenceTimer) clearTimeout(silenceTimer);
@@ -70,7 +76,21 @@ document.addEventListener('DOMContentLoaded', () => {
         silenceTimer = setTimeout(() => {
             console.log("User paused. Sending data...");
             sendToBackend(transcript);
-            // stopListening(); // Stop listening after sending
+
+            // Detect commands like "copilot next", "copilot back", and "copilot help"
+            if (transcript.includes("copilot") || transcript.includes("co-pilot")) {
+                console.log("copilot detected:", transcript);
+                if (transcript.includes("next")) {
+                    console.log("Command detected: next");
+                    nextStep();
+                } else if (transcript.includes("back")) {
+                    console.log("Command detected: back");
+                    prevStep();
+                } else if (transcript.includes("help")) {
+                    console.log("Command detected: help");
+                    sendToBackend();
+                }
+            }
         }, 1000);
     };
 
@@ -83,11 +103,39 @@ document.addEventListener('DOMContentLoaded', () => {
             },
             body: JSON.stringify({ message: text }) // Send speech as JSON
         })
-        .then(response => response.json())
-        .then(data => console.log("Response from server:", data))
-        .catch(error => console.error("Error:", error));
+        .then(response => response.json()) // Parse the JSON response
+        .then(data => {
+            // Update the innerHTML of the listening-status with the API response
+            const listeningStatus = document.getElementById("listening-status");
+            listeningStatus.innerHTML = data.response; // Assuming the API returns an object with a "response" property
+    
+            // Select the Google US English Female voice
+            const voices = speechSynthesis.getVoices();
+            const selectedVoice = voices.find(voice => 
+                voice.name === "Google US English" && voice.gender === "female"
+            );
+    
+            // If the voice is found, use it for speech synthesis
+            const utterance = new SpeechSynthesisUtterance(data.response);
+            if (selectedVoice) {
+                utterance.voice = selectedVoice; // Set to selected Google US Female voice
+            }
+            
+            speechSynthesis.speak(utterance); // This will speak the response
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            // Optionally, display an error message if the API call fails
+            const listeningStatus = document.getElementById("listening-status");
+            listeningStatus.innerHTML = "An error occurred. Please try again.";
+    
+            // Optional: Handle error in speech as well
+            const errorMessage = "Sorry, something went wrong.";
+            const utterance = new SpeechSynthesisUtterance(errorMessage);
+            speechSynthesis.speak(utterance);
+        });
     }
-
+    
     // Expose startListening globally
     window.startListening = startListening;
     window.stopListening = stopListening;

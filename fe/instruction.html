@@ -21,6 +21,7 @@
     <script src="https://unpkg.com/ml5@1/dist/ml5.min.js"></script>
     
     <!-- Scripts -->
+    <script src="scripts/aichat.js"></script>
     <script src="scripts/instruction-fe.js"></script>
     <script src="scripts/global.js"></script>
     <script src="scripts/api-calls.js"></script>
@@ -71,30 +72,33 @@
         </div>
     </div>
     
-    <!-- Listening Status -->
-    <p class="listening-text ms-5 mb-4" id="listening-status">Listening...</p>
-
-    <!-- Navigation Controls -->
-    <div class="d-flex justify-content-between align-items-center">
-        <button class="navigation-button prev-button" id="prev-btn">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M19 12H5M12 19l-7-7 7-7" />
-            </svg>
-        </button>
-
-        <button class="mic-button" id="mic-btn">
-            <i class="bi bi-mic mic-icon"></i>
-            <i class="bi bi-mic-mute mic-mute-icon"></i>
-        </button>
-
-        <button class="navigation-button next-button" id="next-btn">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
-        </button>
+    <div class="transcription-nav-container">
+        <!-- Listening Status -->
+        <div class="listening-status-container">
+            <p class="listening-text" id="listening-status">
+                Listening...
+            </p>
+        </div>
+        
+        <!-- Navigation Controls -->
+        <div class="d-flex justify-content-between align-items-center nav-container">
+            <button class="navigation-button prev-button" id="prev-btn">
+                <i class="bi bi-arrow-left"></i>
+            </button>
+            
+            <button class="mic-button" id="mic-btn">
+                <i class="bi bi-mic mic-icon"></i>
+                <i class="bi bi-mic-mute mic-mute-icon"></i>
+            </button>
+            
+            <button class="navigation-button next-button" id="next-btn">
+                <!-- <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg> -->
+                <i class="bi bi-arrow-right"></i>
+            </button>
+        </div>
     </div>
-
     <script src="scripts/instruction-nextprev.js"></script>
 </body>
-
 </html>
