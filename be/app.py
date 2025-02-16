@@ -117,6 +117,7 @@ def answer_question(user_id, user_message):
 
     return bot_response
 
+@app.route('/get_ingredients', methods=['GET'])
 def get_ingredients():
     """Fetch ingredients data."""
     return jsonify({"response": RECIPE["ingredients"]})

@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // Your existing code remains the same until the updateBubbleCount function
-    
+    fetchIngredients(); // Fetch ingredients on page load
+
     const dropdownButton = document.querySelector('.dropdown-button');
     const dropdownContent = document.querySelector('.dropdown-content');
 
@@ -22,12 +22,12 @@ document.addEventListener('DOMContentLoaded', function () {
             const servings = parseInt(e.target.getAttribute('data-servings'));
 
             dropdownButton.innerHTML = `${servings} Serving${servings > 1 ? 's' : ''} <span>▼</span>`;
-            
+
             const measurements = document.querySelectorAll('.measurement');
             measurements.forEach(measurement => {
                 const baseAmount = parseFloat(measurement.getAttribute('data-base'));
                 const type = measurement.getAttribute('data-type');
-                
+
                 if (type === 'count') {
                     const newAmount = Math.round(baseAmount * servings / 2);
                     measurement.textContent = `${newAmount} LARGE`;
@@ -37,17 +37,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     measurement.textContent = `${newAmount} ${unit}`;
                 }
             });
-            
-            dropdownContent.style.display = 'none';
-        });
-    });
 
-    // Checkbox functionality
-    const checkboxes = document.querySelectorAll('.custom-checkbox');
-    checkboxes.forEach(checkbox => {
-        checkbox.addEventListener('click', () => {
-            checkbox.classList.toggle('checked');
-            updateBubbleCount();
+            dropdownContent.style.display = 'none';
         });
     });
 
@@ -71,8 +62,7 @@ document.addEventListener('DOMContentLoaded', function () {
             align-items: center;
             font-weight: bold;
         `;
-        
-        // Find a suitable parent element to append the bubble
+
         const ingredientsHeader = document.querySelector('.ingredients-header');
         if (ingredientsHeader) {
             ingredientsHeader.style.position = 'relative';
@@ -80,13 +70,58 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Updated updateBubbleCount function with error handling
+    // Fetch ingredients from API and update table
+    async function fetchIngredients() {
+        const tableBody = document.querySelector('.ingredients-table tbody');
+
+        try {
+            const response = await fetch('http://127.0.0.1:5000/get_ingredients');
+            const data = await response.json();
+            const ingredients = data.response; // Assuming response is a list of ingredient names
+
+            // Clear existing rows
+            tableBody.innerHTML = '';
+
+            // Populate table with fetched ingredients
+            ingredients.forEach(ingredient => {
+                const row = document.createElement('tr');
+
+                row.innerHTML = `
+                    <td>${ingredient}</td>
+                    <td class="checkbox-container">
+                        <div class="custom-checkbox"></div>
+                    </td>
+                `;
+
+                tableBody.appendChild(row);
+            });
+
+            // Attach event listeners for new checkboxes
+            addCheckboxListeners();
+            updateBubbleCount();
+        } catch (error) {
+            console.error('Error fetching ingredients:', error);
+        }
+    }
+
+    function addCheckboxListeners() {
+        const checkboxes = document.querySelectorAll('.custom-checkbox');
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('click', () => {
+                checkbox.classList.toggle('checked');
+                updateBubbleCount();
+            });
+        });
+    }
+
     function updateBubbleCount() {
         try {
             const checkedCount = document.querySelectorAll('.custom-checkbox.checked').length;
+            const totalCount = document.querySelectorAll('.custom-checkbox').length;
+
             if (bubble) {
-                if (checkedCount > 0) {
-                    bubble.textContent = checkedCount;
+                if (checkedCount >= 0 && checkedCount < totalCount) {
+                    bubble.textContent = totalCount - checkedCount;
                     bubble.style.display = 'flex';
                 } else {
                     bubble.style.display = 'none';
@@ -96,21 +131,4 @@ document.addEventListener('DOMContentLoaded', function () {
             console.error('Error updating bubble count:', error);
         }
     }
-
-    // Initialize bubble count
-    updateBubbleCount();
-
-    // Start cooking buttons
-    const startButton = document.querySelector('.start-button');
-    const startCookingNav = document.getElementById('start-cooking-nav');
-
-    function startCooking() {
-        alert('Let\'s start cooking! First, preheat your oven to 350°F (175°C).');
-    }
-
-    startButton?.addEventListener('click', startCooking);
-    startCookingNav?.addEventListener('click', (e) => {
-        e.preventDefault();
-        startCooking();
-    });
 });
