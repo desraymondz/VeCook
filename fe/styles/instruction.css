@@ -41,7 +41,7 @@
 }
 
 .prev-button {
-    background-color: #ff9966;
+    background-color: #ff6347;
     color: white;
 }
 
@@ -99,12 +99,15 @@
 /* Make the .steps-bg take the remaining height */
 .steps-bg {
     background-color: rgba(255, 231, 226, 1);
-    width: 100%; /* Full width */
-    flex-grow: 1; /* Ensure this div fills the remaining height */
+    width: 100%;
+    /* Full width */
+    height: 375px;
+    flex-grow: 1;
+    /* Ensure this div fills the remaining height */
     padding: 20px;
-    border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    box-sizing: border-box; /* Ensure padding doesn't affect the height */
+    box-sizing: border-box;
+    /* Ensure padding doesn't affect the height */
 }
 
 #canvas-container {
@@ -112,21 +115,27 @@
 }
 
 .mic-button i {
-    font-size: 640%; /* Ensure both icons are the same size */
-    position: absolute; /* Stack them on top of each other */
+    font-size: 640%;
+    /* Ensure both icons are the same size */
+    position: absolute;
+    /* Stack them on top of each other */
     transition: opacity 0.2s ease-in-out;
 }
 
 .mic-icon {
-    color: #000; /* Default mic color */
-    display: none; /* Start hidden */
+    color: #000;
+    /* Default mic color */
+    display: none;
+    /* Start hidden */
     justify-content: center;
     align-items: center;
 }
 
 .mic-mute-icon {
-    color: #ff6347; /* Muted mic color */
-    display: block; /* Start visible */
+    color: #ff6347;
+    /* Muted mic color */
+    display: block;
+    /* Start visible */
 }
 
 .transcription-nav-container {
@@ -147,9 +156,12 @@
     margin-right: 4em;
 }
 
-.bi-arrow-right, .bi-arrow-left {
-    font-size: 440%; /* Ensure both icons are the same size */
-    position: absolute; /* Stack them on top of each other */
+.bi-arrow-right,
+.bi-arrow-left {
+    font-size: 440%;
+    /* Ensure both icons are the same size */
+    position: absolute;
+    /* Stack them on top of each other */
     transition: opacity 0.2s ease-in-out;
     font-weight: 1000;
 }
