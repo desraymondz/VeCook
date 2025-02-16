@@ -58,7 +58,8 @@
         }
 
         .nav-links a.active {
-            background-color: #4CAF50;
+            background-color: white;
+            color: #333;
         }
 
         .container {
@@ -160,6 +161,24 @@
         .btn-mic:hover {
             background: #e0e0e0;
         }
+
+        @media (max-width: 768px) {
+        .navbar {
+            flex-direction: column;
+            gap: 10px;
+            padding: 15px 20px;
+        }
+        
+        .nav-links {
+            width: 100%;
+            justify-content: center;
+        }
+        
+        .logo-text {
+            font-size: 18px;
+        }
+
+        
     </style>
 </head>
 <body>
@@ -171,8 +190,8 @@
             <span class="logo-text">Kitchen Copilot - VeCook</span>
         </a>
         <div class="nav-links">
-            <a href="/" class="nav-link">Home</a>
-            <a href="#" class="nav-link active" id="start-cooking-nav">Start Cooking</a>
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="start-cooking.html" class="nav-link active" id="start-cooking-nav">End Cooking</a>
         </div>
     </nav>
 
