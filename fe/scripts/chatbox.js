@@ -5,6 +5,16 @@ document.addEventListener('DOMContentLoaded', function () {
     const sendButton = document.querySelector('.send-button');
     const messagesContainer = document.querySelector('.chat-messages');
 
+    // Create the floating Google Fit button
+    const googleFitButton = document.createElement('button');
+    googleFitButton.textContent = 'Recommend based on Google Fit';
+    googleFitButton.className = 'google-fit-button';
+    googleFitButton.addEventListener('click', handleGoogleFitRecommendation);
+
+    // Insert the button inside the chat input area
+    const chatInputContainer = document.querySelector('.chat-input');
+    chatInputContainer.appendChild(googleFitButton);
+
     chatIcon.addEventListener('click', () => {
         chatBox.classList.toggle('active');
     });
@@ -48,6 +58,9 @@ document.addEventListener('DOMContentLoaded', function () {
         addMessage(userMessage, true); // Display user message
         input.value = '';
 
+        // Hide the Google Fit button after user input
+        googleFitButton.style.display = 'none';
+
         try {
             const response = await fetch('http://127.0.0.1:5000/personalize', {
                 method: 'POST',
@@ -57,7 +70,69 @@ document.addEventListener('DOMContentLoaded', function () {
                 body: JSON.stringify({ preference: userMessage })
             });
 
-            const aiResponse = await response.json(); // Get plain text response
+            const aiResponse = await response.json(); // Get AI response
+            addMessage(aiResponse.response?.message || "No response received.", false, true); // Show AI response with Yes/No buttons
+
+        } catch (error) {
+            console.error('Error sending message:', error);
+            addMessage('Sorry, something went wrong. Please try again.');
+        }
+    }
+
+    async function handleGoogleFitRecommendation() {
+        // Add user message bubble
+        addMessage('Recommend based on Google Fit', true);
+
+        // Hide the Google Fit button after it's clicked
+        googleFitButton.style.display = 'none';
+
+        try {
+            // Call the Google Fit recommendation function and await the steps data
+            const recommendationMessage = await recommend_google_fit();
+
+            // After getting the Google Fit recommendation, call the personalize endpoint with "high protein"
+            const aiMessage = await getAIRecommendation("I have high activity level so I need high protein");
+
+            // Show response from AI (from personalize API)
+            addMessage(aiMessage, false);
+
+        } catch (error) {
+            console.error("Error in handleGoogleFitRecommendation:", error);
+            addMessage('Error fetching recommendation. Please try again.', false);
+        }
+    }
+
+    async function recommend_google_fit() {
+        try {
+            await requestGoogleFitAccess();
+            const steps = await getSteps();
+            console.log("Today's steps:", steps);
+
+            // Update UI with steps if you have an element to display it
+            const stepsDisplay = document.getElementById('steps-display');
+            if (stepsDisplay) {
+                stepsDisplay.textContent = `Steps taken today: ${steps}`;
+            }
+
+            return "Google Fit steps data fetched successfully!";
+        } catch (error) {
+            console.error("Error in recommend_google_fit:", error);
+            alert("Error fetching step data. Please try again.");
+            return "Failed to fetch steps data.";
+        }
+    }
+
+    async function getAIRecommendation(upreference) {
+        try {
+            const response = await fetch('http://127.0.0.1:5000/personalize', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ preference: upreference })
+            });
+
+            const aiResponse = await response.json(); // Get AI response
             addMessage(aiResponse.response?.message || "No response received.", false, true); // Show AI response with Yes/No buttons
 
         } catch (error) {
