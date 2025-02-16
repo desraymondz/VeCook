@@ -20,6 +20,9 @@
     <link rel="stylesheet" href="./styles/aichat.css">
     <link rel="stylesheet" href="./styles/index.css">
 
+    <link rel="stylesheet" href="./styles/ingredients.css">
+    <link rel="stylesheet" href="./styles/chatbox.css">
+    
     <!-- JS -->
     <script src="./scripts/aichat.js"></script>
     <style>
@@ -363,6 +366,8 @@
         }
     }
     </style>
+    <script src="./scripts/ingredients.js"></script>
+    <script src="./scripts/chatbox.js"></script>
 </head>
 
 <body>
@@ -382,8 +387,8 @@
     <div class="content-wrapper">
         <div class="recipe-card">
             <div class="left-section">
-                <img src="styles/mac-n-cheese.jpg" alt="Mac n Cheese" class="recipe-image">
-                <div class="recipe-title">Mac n Cheese</div>
+                <img src="./styles/mac.jpg" alt="Creamy mac and cheese" class="recipe-image">
+                <div class="recipe-title">Creamy Mac and Cheese</div>
                 <div class="time-container">
                     <svg class="clock-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -483,119 +488,34 @@
                         </tr>
                     </tbody>
                 </table>
-
-                <div class="bubble">2</div>
             </div>
         </div>
     </div>
 
-    <div class="chat-container">
-        <!-- user will choose to apply or not to apply -->
-        <div class="user-choice" style="display: none;"> <!-- Initially hidden -->
-            <button type="button" class="btn btn-danger">No</button>
-            <button type="button" class="btn btn-success">Apply!</button>
+    <div class="chat-widget">
+        <div class="chat-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+            </svg>
         </div>
-        <div class="ai-output" id="ai-output">
-            <!-- AI output from API will appear here -->
+        <div class="chat-box">
+            <div class="chat-header">
+                <div class="chat-title">How can we help?</div>
+                <div class="chat-subtitle">Let us know if you have any questions!</div>
+            </div>
+            <div class="chat-messages">
+                <div class="message bot">
+                    <div class="message-content">
+                        Hi there! How can I assist you today?
+                    </div>
+                </div>
+            </div>
+            <div class="chat-input">
+                <input type="text" placeholder="Type your message...">
+                <button class="send-button">Send</button>
+            </div>
         </div>
-        <a href="#" class="alert alert-light" role="alert" id="google-fit-btn">
-            Recommend based on Google Fit data
-        </a>
-        <a href="#" class="alert alert-light" role="alert">
-            Make it vegan!
-        </a>
-        <a href="#" class="alert alert-light" role="alert">
-            Make it healthier!
-        </a>
     </div>
-
-    <script>
-        // Dropdown functionality
-        const dropdownButton = document.querySelector('.dropdown-button');
-        const dropdownContent = document.querySelector('.dropdown-content');
-
-        dropdownButton.addEventListener('click', () => {
-            dropdownContent.style.display = dropdownContent.style.display === 'block' ? 'none' : 'block';
-        });
-
-        // Close dropdown when clicking outside
-        window.addEventListener('click', (event) => {
-            if (!event.target.matches('.dropdown-button') && !event.target.parentNode.matches('.dropdown-button')) {
-                dropdownContent.style.display = 'none';
-            }
-        });
-
-        // Servings selection
-        const servingsOptions = document.querySelectorAll('.dropdown-content a');
-        servingsOptions.forEach(option => {
-            option.addEventListener('click', (e) => {
-                e.preventDefault();
-                const servings = parseInt(e.target.getAttribute('data-servings'));
-
-                // Update dropdown button text
-                dropdownButton.innerHTML = `${servings} Serving${servings > 1 ? 's' : ''} <span>▼</span>`;
-
-                // Update measurements based on new servings
-                const measurements = document.querySelectorAll('.measurement');
-                measurements.forEach(measurement => {
-                    const baseAmount = parseFloat(measurement.getAttribute('data-base'));
-                    const type = measurement.getAttribute('data-type');
-
-                    if (type === 'count') {
-                        // For count-based ingredients like eggs
-                        const newAmount = Math.round(baseAmount * servings / 2);
-                        measurement.textContent = `${newAmount} LARGE`;
-                    } else {
-                        // For volume-based measurements
-                        const newAmount = (baseAmount * servings / 2).toFixed(2).replace(/\.00$/, '');
-                        const unit = measurement.textContent.split(' ')[1];
-                        measurement.textContent = `${newAmount} ${unit}`;
-                    }
-                });
-
-                // Hide dropdown after selection
-                dropdownContent.style.display = 'none';
-            });
-        });
-
-        // Checkbox functionality
-        const checkboxes = document.querySelectorAll('.custom-checkbox');
-        checkboxes.forEach(checkbox => {
-            checkbox.addEventListener('click', () => {
-                checkbox.classList.toggle('checked');
-                updateBubbleCount();
-            });
-        });
-
-        // Update bubble count
-        function updateBubbleCount() {
-            const checkedCount = document.querySelectorAll('.custom-checkbox.checked').length;
-            const bubble = document.querySelector('.bubble');
-
-            if (checkedCount > 0) {
-                bubble.textContent = checkedCount;
-                bubble.style.display = 'flex';
-            } else {
-                bubble.style.display = 'none';
-            }
-        }
-
-        // Initialize bubble count
-        updateBubbleCount();
-
-        // Start cooking buttons (both in nav and in card)
-        const startButton = document.querySelector('.start-button');
-        const startCookingNav = document.getElementById('start-cooking-nav');
-        
-        startButton.addEventListener('click', startCooking);
-        startCookingNav.addEventListener('click', (e) => {
-            e.preventDefault();
-            startCooking();
-        });
-    </script>
-
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
-    <script src="google-fit.js"></script>
 </body>
 
 </html>
