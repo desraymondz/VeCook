@@ -12,11 +12,14 @@ function toggleMic() {
     micIcon.style.display = isMuted ? "none" : "flex";  // Show/hide icons based on mute state
     micMuteIcon.style.display = isMuted ? "flex" : "none"; 
 
+    const listeningStatus = document.getElementById("listening-status");
     // Start or stop listening based on mute state
     if (isMuted) {
         stopListening();
+        listeningStatus.innerHTML = "Muted";
     } else {
         startListening();
+        listeningStatus.innerHTML = "Listening...";
     }
 }
 
