@@ -90,6 +90,7 @@ async function recommend_google_fit() {
         if (stepsDisplay) {
             stepsDisplay.textContent = `Steps taken today: ${steps}`;
         }
+        return "Connected to google fit api"
     } catch (error) {
         console.error("Error in recommend_google_fit:", error);
         alert("Error fetching step data. Please try again.");
