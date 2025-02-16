@@ -14,6 +14,14 @@ function nextStep() {
             if (data.step_content !== "END") {
                 stepContent.textContent = data.step_content;
                 stepNumber.textContent = data.step_number + 1;
+                console.log("THIS IS NOT THE END Next Step: ", stepNumber.textContent);
+            } else {
+                console.log("modal should be open now");
+                if (typeof triggerShareModal === 'function') {
+                    triggerShareModal(); // Open the share modal
+                } else {
+                    console.error("triggerShareModal is not a function");
+                }
             }
         })
         .catch(error => console.error("Error fetching next step:", error));
