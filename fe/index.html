@@ -22,7 +22,7 @@
 
     <link rel="stylesheet" href="./styles/ingredients.css">
     <link rel="stylesheet" href="./styles/chatbox.css">
-    
+
     <!-- JS -->
     <script src="./scripts/aichat.js"></script>
     <style>
@@ -32,7 +32,7 @@
 
         body {
             margin: 20px;
-            padding: 15PX ;
+            padding: 15PX;
             background-color: #f9f5f0;
         }
 
@@ -44,7 +44,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 15px 30px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
         .logo-container {
@@ -213,7 +213,8 @@
             border-collapse: collapse;
         }
 
-        .ingredients-table th, .ingredients-table td {
+        .ingredients-table th,
+        .ingredients-table td {
             padding: 12px;
             text-align: left;
             border-bottom: 1px solid #eee;
@@ -277,10 +278,12 @@
                 transform: scale(1);
                 box-shadow: 0 0 0 0 rgba(59, 137, 255, 0.7);
             }
+
             70% {
                 transform: scale(1.1);
                 box-shadow: 0 0 0 10px rgba(59, 137, 255, 0);
             }
+
             100% {
                 transform: scale(1);
                 box-shadow: 0 0 0 0 rgba(59, 137, 255, 0);
@@ -292,79 +295,80 @@
             .recipe-card {
                 flex-direction: column;
             }
-            
-            .left-section, .right-section {
+
+            .left-section,
+            .right-section {
                 width: 100%;
             }
-            
+
             .navbar {
                 flex-direction: column;
                 gap: 10px;
             }
-            
+
             .nav-links {
                 width: 100%;
                 justify-content: center;
             }
         }
 
-    .logo-container {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        text-decoration: none;
-    }
-
-    .logo-img {
-        width: 32px;
-        height: 32px;
-    }
-
-    .logo-text {
-        color: white;
-        font-size: 20px;
-        font-weight: bold;
-    }
-
-    .nav-links {
-        display: flex;
-        gap: 20px;
-    }
-
-    .nav-links a {
-        color: white;
-        text-decoration: none;
-        padding: 8px 12px;
-        border-radius: 4px;
-        transition: background-color 0.3s;
-    }
-
-    .nav-links a:hover {
-        background-color: #555;
-    }
-
-    .nav-links a.active {
-        background-color: white;
-        color: #333;
-    }
-
-    /* Responsive adjustments */
-    @media (max-width: 768px) {
-        .navbar {
-            flex-direction: column;
+        .logo-container {
+            display: flex;
+            align-items: center;
             gap: 10px;
-            padding: 15px 20px;
+            text-decoration: none;
         }
-        
-        .nav-links {
-            width: 100%;
-            justify-content: center;
+
+        .logo-img {
+            width: 32px;
+            height: 32px;
         }
-        
+
         .logo-text {
-            font-size: 18px;
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
         }
-    }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .nav-links a:hover {
+            background-color: #555;
+        }
+
+        .nav-links a.active {
+            background-color: white;
+            color: #333;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 10px;
+                padding: 15px 20px;
+            }
+
+            .nav-links {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .logo-text {
+                font-size: 18px;
+            }
+        }
     </style>
     <script src="./scripts/ingredients.js"></script>
     <script src="./scripts/chatbox.js"></script>
@@ -379,7 +383,7 @@
         </a>
         <div class="nav-links">
             <a href="index.html" class="nav-link">Home</a>
-            <a href="start-cooking.html" class="nav-link active" id="start-cooking-nav">Start Cooking</a>
+            <a href="instruction.html" class="nav-link active" id="start-cooking-nav">Start Cooking</a>
         </div>
     </nav>
 
@@ -398,14 +402,14 @@
                     <span class="est-time">Est time</span>
                     <span class="minutes">45 minutes</span>
                 </div>
-                <button class="start-button" onclick="window.location.href='start-cooking.html'">Start Cooking</button>>
+                <button class="start-button" onclick="window.location.href='instruction.html'">Start Cooking</button>
             </div>
 
             <div class="right-section">
                 <h2 class="ingredients-header">Ingredients</h2>
 
                 <div class="servings-dropdown">
-                    <button class="dropdown-button">2 Servings <span>▼</span></button>
+                    <button class="dropdown-button">1 Serving <span>▼</span></button>
                     <div class="dropdown-content">
                         <a href="#" data-servings="1">1 Serving</a>
                         <a href="#" data-servings="2">2 Servings</a>
@@ -418,70 +422,60 @@
                     <thead>
                         <tr>
                             <th>Ingredients</th>
-                            <th>Measurement</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td>Pastry flour</td>
-                            <td class="measurement" data-base="1">1 C</td>
                             <td class="checkbox-container">
                                 <div class="custom-checkbox"></div>
                             </td>
                         </tr>
                         <tr>
                             <td>Cocoa powder</td>
-                            <td class="measurement" data-base="0.5">0.50 C</td>
                             <td class="checkbox-container">
                                 <div class="custom-checkbox checked"></div>
                             </td>
                         </tr>
                         <tr>
                             <td>Salt</td>
-                            <td class="measurement" data-base="0.5">0.50 TSP</td>
                             <td class="checkbox-container">
                                 <div class="custom-checkbox"></div>
                             </td>
                         </tr>
                         <tr>
                             <td>Baking powder</td>
-                            <td class="measurement" data-base="1">1 TSP</td>
                             <td class="checkbox-container">
                                 <div class="custom-checkbox checked"></div>
                             </td>
                         </tr>
                         <tr>
                             <td>Baking soda</td>
-                            <td class="measurement" data-base="0.25">0.25 TSP</td>
                             <td class="checkbox-container">
                                 <div class="custom-checkbox"></div>
                             </td>
                         </tr>
                         <tr>
                             <td>Sugar</td>
-                            <td class="measurement" data-base="0.5">0.50 C</td>
                             <td class="checkbox-container">
                                 <div class="custom-checkbox"></div>
                             </td>
                         </tr>
                         <tr>
                             <td>Egg</td>
-                            <td class="measurement" data-base="1" data-type="count">1 LARGE</td>
                             <td class="checkbox-container">
                                 <div class="custom-checkbox"></div>
                             </td>
                         </tr>
                         <tr>
                             <td>Vanilla</td>
-                            <td class="measurement" data-base="1">1 TSP</td>
                             <td class="checkbox-container">
                                 <div class="custom-checkbox"></div>
                             </td>
                         </tr>
                         <tr>
                             <td>Blueberries</td>
-                            <td class="measurement" data-base="1">1 C</td>
                             <td class="checkbox-container">
                                 <div class="custom-checkbox checked"></div>
                             </td>
@@ -495,13 +489,14 @@
     <div class="chat-widget">
         <div class="chat-icon">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
             </svg>
         </div>
         <div class="chat-box">
             <div class="chat-header">
                 <div class="chat-title">How can we help?</div>
-                <div class="chat-subtitle">Let us know if you have any questions!</div>
+                <div class="chat-subtitle">Let us know if you have any preferences for the ingredients!</div>
             </div>
             <div class="chat-messages">
                 <div class="message bot">
@@ -512,7 +507,7 @@
             </div>
             <div class="chat-input">
                 <input type="text" placeholder="Type your message...">
-                <button class="send-button">Send</button>
+                <button class="send-button" onclick="send_preferences()">Send</button>
             </div>
         </div>
     </div>

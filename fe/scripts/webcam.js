@@ -59,6 +59,27 @@ function setup() {
     recordButton = createButton('Start Recording');
     recordButton.position(10, 384); // Adjust button position
     recordButton.mousePressed(toggleRecording);
+
+    recordButton.style('padding', '10px 20px');
+    recordButton.style('background-color', '#dc3545'); // Red background
+    recordButton.style('color', 'white');
+    recordButton.style('border', '2px solid #c82333'); // Darker red border
+    recordButton.style('border-radius', '8px');
+    recordButton.style('font-size', '16px');
+    recordButton.style('cursor', 'pointer');
+    recordButton.style('transition', 'all 0.3s ease'); // Smooth transition for hover effects
+
+    // Add hover effect using mouse events
+    recordButton.mouseOver(() => {
+        recordButton.style('background-color', '#c82333'); // Dark red on hover
+        recordButton.style('border', '2px solid #bd2130'); // Darker red border on hover
+    });
+
+    recordButton.mouseOut(() => {
+        recordButton.style('background-color', '#dc3545'); // Back to base red
+        recordButton.style('border', '2px solid #c82333'); // Back to base red border
+    });
+
 }
 
 function draw() {
