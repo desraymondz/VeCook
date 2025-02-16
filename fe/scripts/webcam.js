@@ -217,7 +217,7 @@ function isFingerStretched(hand, fingerName) {
 
     let handLength = dist(wrist.x, wrist.y, mcp.x, mcp.y);
     let stretchDistance = dist(tip.x, tip.y, mcp.x, mcp.y);
-    let isFarEnough = stretchDistance > handLength * 0.5; // Increased sensitivity
+    let isFarEnough = stretchDistance > handLength * 0.2; // Increased sensitivity
 
     // TODO: thumb and pinky not working
     // if (fingerName === "thumb") {
