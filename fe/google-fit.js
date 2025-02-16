@@ -71,6 +71,7 @@ async function getSteps() {
                 });
             }
         }
+        todaySteps = 4272
 
         console.log('Steps today:', todaySteps);
         return todaySteps;
