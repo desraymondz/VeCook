@@ -37,7 +37,7 @@ ORIGINAL_RECIPE = {
     ]
 }
 
-RECIPE = ORIGINAL_RECIPE
+RECIPE = ORIGINAL_RECIPE.copy()
 
 user_state = {
     "current_step": 0,
@@ -48,13 +48,15 @@ user_history = {}
 
 def change_recipe(preference):
     """Change recipe based on user's preference"""
+    global RECIPE
+
     system_msg = f"""You are a helpful recipe advisor who can modify recipe based on user's preferences.
                 Here is the original recipe data:
-                {json.dumps(RECIPE, indent=2)}
+                {json.dumps(ORIGINAL_RECIPE, indent=2)}
                 
                 You must always respond with the following JSON object: 
                 {{
-                    "message": (Example: Since you are vegan, I have modified the recipe to be vegan friendly, such as changing ... summary it in 1 paragraph),
+                    "message": (Example: Since you are vegan, I have modified the recipe to be vegan friendly, such as changing .... Do you want me to change the recipe? summary it in 2 sentences),
                     "modified_recipe": {{
                         "title": modified title (For example: Vegan Mac & Cheese)
                         "ingredients": list of modified ingredients (ONLY CHANGE THE NECESSARY ONES),
