@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log("User paused. Sending data...");
 
             // Detect commands like "copilot next", "copilot back", and "copilot help"
-            if (transcript.includes("copilot") || transcript.includes("co-pilot")) {
+            if (transcript.includes("copilot") || transcript.includes("co-pilot") || transcript.includes("pilot")) {
                 console.log("copilot detected:", transcript);
                 if (transcript.includes("next")) {
                     console.log("Command detected: next");
