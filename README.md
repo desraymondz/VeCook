@@ -2,7 +2,7 @@
 
 ## ✨Overview
 
-**VeCook** An enhanced cooking companion built for [Kitchen CoPilot](https://kitchencopilot.com). Perfect for anyone seeking guidance from your mom who cares about your health, corrects your mistakes, and understands YOU. With Kitchen CoPilot, cooking feels less like a chore and more like a supportive, enriching experience.
+**VeCook** An enhanced cooking companion built for [Kitchen CoPilot](https://kitchencopilot.com). Perfect for anyone seeking guidance to someone(AI) that cares about your health, corrects your mistakes, and understands YOU. With Kitchen CoPilot, cooking feels less like a chore and more like a supportive, enriching experience.
 
 👨🏻‍💻This project was built during [Hackomania 2025](https://hackomania.geekshacking.com) within 24 hours.
 
