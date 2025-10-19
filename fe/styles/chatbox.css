@@ -34,14 +34,15 @@
     position: absolute;
     bottom: 80px;
     right: 0;
-    width: 320px;
-    height: 400px;
+    width: 380px;
+    height: 500px;
     background: white;
     border-radius: 16px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     display: none;
     flex-direction: column;
     overflow: hidden;
+    transition: all 0.3s ease;
 }
 
 .chat-box.active {
@@ -70,6 +71,26 @@
     flex: 1;
     padding: 20px;
     overflow-y: auto;
+    max-height: 350px;
+}
+
+/* Custom scrollbar for chat messages */
+.chat-messages::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chat-messages::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 3px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb:hover {
+    background: #555;
 }
 
 .message {
