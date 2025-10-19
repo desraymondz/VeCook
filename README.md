@@ -83,8 +83,6 @@ Backend:
 
 2. **Open with a local server**
    
-   You can use any local server:
-
    - **Using VS Code Live Server extension:**
      Right-click on `index.html` and select "Open with Live Server"
 
