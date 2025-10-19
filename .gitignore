@@ -1,0 +1,50 @@
+# Backend (Python)
+be/.env
+be/venv/
+be/__pycache__/
+be/*.pyc
+be/*.pyo
+be/*.pyd
+be/.Python
+be/env/
+be/pip-log.txt
+be/pip-delete-this-directory.txt
+be/.pytest_cache/
+be/*.egg-info/
+be/dist/
+be/build/
+
+# Frontend
+fe/.netlify/
+
+# Netlify
+.netlify
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
