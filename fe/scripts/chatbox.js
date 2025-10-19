@@ -91,10 +91,8 @@ document.addEventListener('DOMContentLoaded', function () {
             const recommendationMessage = await recommend_google_fit();
 
             // After getting the Google Fit recommendation, call the personalize endpoint with "high protein"
-            const aiMessage = await getAIRecommendation("I have high activity level so I need high protein");
+            await getAIRecommendation("I have high activity level so I need high protein");
 
-            // Show response from AI (from personalize API)
-            addMessage(aiMessage, false);
 
         } catch (error) {
             console.error("Error in handleGoogleFitRecommendation:", error);
@@ -133,11 +131,14 @@ document.addEventListener('DOMContentLoaded', function () {
             });
 
             const aiResponse = await response.json(); // Get AI response
-            addMessage(aiResponse.response?.message || "No response received.", false, true); // Show AI response with Yes/No buttons
+            const message = aiResponse.response?.message || "No response received.";
+            addMessage(message, false, true); // Show AI response with Yes/No buttons
+            return message; // Return the message instead of undefined
 
         } catch (error) {
             console.error('Error sending message:', error);
             addMessage('Sorry, something went wrong. Please try again.');
+            return 'Sorry, something went wrong. Please try again.';
         }
     }
 
