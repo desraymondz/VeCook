@@ -83,24 +83,14 @@ Backend:
 
 2. **Open with a local server**
    
-   You can use any local server. Here are a few options:
-   
-   - **Using Python:**
-     ```bash
-     python -m http.server 8000
-     ```
-   
-   - **Using Node.js (http-server):**
-     ```bash
-     npx http-server -p 8000
-     ```
-   
+   You can use any local server:
+
    - **Using VS Code Live Server extension:**
      Right-click on `index.html` and select "Open with Live Server"
 
 3. **Access the application**
    
-   Open your browser and navigate to `http://localhost:8000` or `http://127.0.0.1:5500/fe/` if using Live Server extension
+   Open your browser and navigate to `http://127.0.0.1:5500/fe/` if using Live Server extension.
 
 ### Usage Tips
 - 🎥 Allow camera access for hand gesture controls
